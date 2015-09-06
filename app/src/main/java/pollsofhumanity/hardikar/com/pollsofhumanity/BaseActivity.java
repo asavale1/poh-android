@@ -1,5 +1,7 @@
 package pollsofhumanity.hardikar.com.pollsofhumanity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,11 +13,13 @@ import android.widget.TextView;
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetQuestion;
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetQuestionListener;
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.PostAnswer;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.PostAnswerListener;
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.QuestionHolder;
 
 public class BaseActivity extends AppCompatActivity {
     private TextView questionText;
     private QuestionHolder questionHolder;
+    private Button yesButton, noButton;
 
 
     @Override
@@ -23,12 +27,24 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
         new GetQuestion(this, gQListener).execute();
-        Button yesButton = (Button)findViewById(R.id.butt_Yes);
+
+
+        yesButton = (Button)findViewById(R.id.butt_Yes);
         yesButton.setOnClickListener(yesListener);
 
-        Button noButton= (Button)findViewById(R.id.butt_No);
+        noButton= (Button)findViewById(R.id.butt_No);
         noButton.setOnClickListener(noListener);
+
         questionText=(TextView) findViewById(R.id.question_Text);
+
+
+        boolean answered = readSharedPref();
+
+        if(answered){
+            yesButton.setClickable(false);
+            noButton.setClickable(false);
+        }
+
     }
 
     @Override
@@ -55,23 +71,47 @@ public class BaseActivity extends AppCompatActivity {
 
     GetQuestionListener gQListener = new GetQuestionListener() {
         @Override
-        public void onGetQUestionComplete(QuestionHolder question) {
+        public void onGetQuestionComplete(QuestionHolder question) {
             System.out.println("Got question");
             questionText.setText(question.getQuestion());
             questionHolder = question;
+
         }
     };
+
+    PostAnswerListener pAListener = new PostAnswerListener() {
+        @Override
+        public void onPostAnswerComplete() {
+            writeSharedPref(true);
+            yesButton.setClickable(false);
+            noButton.setClickable(false);
+        }
+    };
+
     View.OnClickListener yesListener= new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            new PostAnswer(questionHolder.getId(), "yes").execute();
+            new PostAnswer(questionHolder.getId(), "yes", pAListener).execute();
         }
     };
      View.OnClickListener noListener= new View.OnClickListener() {
          @Override
          public void onClick(View v) {
-            new PostAnswer(questionHolder.getId(), "no").execute();
+            new PostAnswer(questionHolder.getId(), "no", pAListener).execute();
          }
      };
+
+
+    private boolean readSharedPref(){
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        return sharedPref.getBoolean("answered", false);
+    }
+
+    private void writeSharedPref(boolean answered){
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("answered", answered);
+        editor.commit();
+    }
 
 }

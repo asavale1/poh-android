@@ -18,11 +18,13 @@ import java.net.URL;
 public class PostAnswer extends AsyncTask<Void, Void, String> {
     private int question_id;
     private String answer, postAnswerUrl;
+    private PostAnswerListener listener;
 
-    public PostAnswer(int question_id, String answer){
+    public PostAnswer(int question_id, String answer, PostAnswerListener listener){
         this.postAnswerUrl="https://polls-of-humanity.herokuapp.com/api/post_answer";
         this.question_id=question_id;
         this.answer=answer;
+        this.listener = listener;
 
     }
     @Override
@@ -67,5 +69,10 @@ public class PostAnswer extends AsyncTask<Void, Void, String> {
         System.out.println(result);
 
         return result;
+    }
+
+    @Override
+    protected void onPostExecute(String result){
+        listener.onPostAnswerComplete();
     }
 }

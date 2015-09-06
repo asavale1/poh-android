@@ -65,7 +65,7 @@ public class GetQuestion extends AsyncTask<Void, Void, QuestionHolder> {
     @Override
     protected void onPostExecute(QuestionHolder question){
         super.onPostExecute(question);
-        listener.onGetQUestionComplete(question);
+        listener.onGetQuestionComplete(question);
     }
 }
 
