@@ -10,10 +10,12 @@ import android.widget.TextView;
 
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetQuestion;
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetQuestionListener;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.PostAnswer;
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.QuestionHolder;
 
 public class BaseActivity extends AppCompatActivity {
     private TextView questionText;
+    private QuestionHolder questionHolder;
 
 
     @Override
@@ -56,18 +58,19 @@ public class BaseActivity extends AppCompatActivity {
         public void onGetQUestionComplete(QuestionHolder question) {
             System.out.println("Got question");
             questionText.setText(question.getQuestion());
+            questionHolder = question;
         }
     };
     View.OnClickListener yesListener= new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            new PostAnswer(questionHolder.getId(), "yes").execute();
         }
     };
      View.OnClickListener noListener= new View.OnClickListener() {
          @Override
          public void onClick(View v) {
-
+            new PostAnswer(questionHolder.getId(), "no").execute();
          }
      };
 
