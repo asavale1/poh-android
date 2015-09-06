@@ -6,6 +6,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetQuestion;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetQuestionListener;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.QuestionHolder;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -13,7 +15,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
-        new GetQuestion(this).execute();
+        new GetQuestion(this, gQListener).execute();
     }
 
     @Override
@@ -37,4 +39,12 @@ public class BaseActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    GetQuestionListener gQListener = new GetQuestionListener() {
+        @Override
+        public void onGetQUestionComplete(QuestionHolder question) {
+            System.out.println("Got question");
+            System.out.println(question.getQuestion());
+        }
+    };
 }
