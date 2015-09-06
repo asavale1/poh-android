@@ -4,18 +4,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetQuestion;
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetQuestionListener;
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.QuestionHolder;
 
 public class BaseActivity extends AppCompatActivity {
+    private TextView questionText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
         new GetQuestion(this, gQListener).execute();
+        Button yesButton = (Button)findViewById(R.id.butt_Yes);
+        yesButton.setOnClickListener(yesListener);
+
+        Button noButton= (Button)findViewById(R.id.butt_No);
+        noButton.setOnClickListener(noListener);
+        questionText=(TextView) findViewById(R.id.question_Text);
     }
 
     @Override
@@ -44,7 +55,20 @@ public class BaseActivity extends AppCompatActivity {
         @Override
         public void onGetQUestionComplete(QuestionHolder question) {
             System.out.println("Got question");
-            System.out.println(question.getQuestion());
+            questionText.setText(question.getQuestion());
         }
     };
+    View.OnClickListener yesListener= new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
+     View.OnClickListener noListener= new View.OnClickListener() {
+         @Override
+         public void onClick(View v) {
+
+         }
+     };
+
 }

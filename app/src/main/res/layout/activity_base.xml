@@ -9,13 +9,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ee?"
-        android:id="@+id/ee"/>
+        android:id="@+id/question_Text"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Yes"
         android:id="@+id/butt_Yes"
-        android:layout_below="@id/ee"/>
+        android:layout_below="@id/question_Text"/>
 
     <Button
         android:layout_width="wrap_content"
