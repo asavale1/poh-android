@@ -1,9 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:layout_height="match_parent"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".BaseActivity">
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".BaseActivity"
+    android:background="@drawable/humanmind">
 
     <TextView
         android:layout_width="wrap_content"
@@ -13,15 +13,22 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/oval_button_yes"
         android:text="Yes"
         android:id="@+id/butt_Yes"
-        android:layout_below="@id/question_Text"/>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="4dp"
+        />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/oval_button_no"
         android:text="No"
         android:id="@+id/butt_No"
-        android:layout_below="@id/butt_Yes"/>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="4dp"/>
 
 </RelativeLayout>
