@@ -43,12 +43,11 @@ public class BaseActivity extends AppCompatActivity {
 
         questionText=(TextView) findViewById(R.id.question_Text);
 
-
         disableSubmit();
 
         System.out.println("Check for update: " + manageSharedPref.getUpdated());
-
-        if(!manageSharedPref.getQuestionExists()){
+        System.out.println("ID: " + manageSharedPref.getId());
+        if(manageSharedPref.getId() == -1){
             new GetQuestion(this, gQListener).execute();
         }else{
             questionText.setText(manageSharedPref.getQuestion());
@@ -70,7 +69,7 @@ public class BaseActivity extends AppCompatActivity {
             public void run() {
 
                 updateHandler.postDelayed(this, 10000);
-
+                System.out.println("Checking for updates");
                 if(manageSharedPref.getUpdated()){
                     questionText.setText(manageSharedPref.getQuestion());
                     enableSubmit();
@@ -120,7 +119,6 @@ public class BaseActivity extends AppCompatActivity {
         public void onGetQuestionComplete(QuestionHolder question) {
             questionText.setText(question.getQuestion());
 
-            manageSharedPref.setQuestionExists(true);
             manageSharedPref.setIsQuestionAnswered(false);
             manageSharedPref.setUpdated(false);
             manageSharedPref.setQuestion(question.getQuestion());
@@ -164,8 +162,8 @@ public class BaseActivity extends AppCompatActivity {
         // Set the alarm to start at approximately 2:00 p.m.
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 21);
-        calendar.set(Calendar.MINUTE, 15);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 10);
 
         // With setInexactRepeating(), you have to use one of the AlarmManager interval
         // constants--in this case, AlarmManager.INTERVAL_DAY.

@@ -27,7 +27,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         public void onGetQuestionComplete(QuestionHolder question) {
             System.out.println("Got question");
 
-            manageSharedPref.setQuestionExists(true);
             manageSharedPref.setIsQuestionAnswered(false);
             manageSharedPref.setUpdated(true);
 

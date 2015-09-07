@@ -24,16 +24,6 @@ public class ManageSharedPref {
         editor.commit();
     }
 
-    public boolean getQuestionExists(){
-        return sharedPref.getBoolean("question_exists", false);
-    }
-
-    public void setQuestionExists(boolean questionExists){
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putBoolean("question_exists", questionExists);
-        editor.commit();
-    }
-
     public String getQuestion(){
         return sharedPref.getString("question", "Waiting for question");
     }
