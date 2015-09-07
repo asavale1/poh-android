@@ -45,7 +45,7 @@ public class ManageSharedPref {
     }
 
     public boolean getUpdated(){
-        return sharedPref.getBoolean("updated", true);
+        return sharedPref.getBoolean("updated", false);
     }
 
     public void setUpdated(boolean updated){
