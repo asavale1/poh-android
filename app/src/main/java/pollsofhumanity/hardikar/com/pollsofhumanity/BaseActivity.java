@@ -44,22 +44,21 @@ public class BaseActivity extends AppCompatActivity {
         questionText=(TextView) findViewById(R.id.question_Text);
 
 
-        boolean answered = manageSharedPref.getIsQuestionAnswered();
+        disableSubmit();
 
-        if(answered){
-            yesButton.setClickable(false);
-            noButton.setClickable(false);
-        }
+        System.out.println("Check for update: " + manageSharedPref.getUpdated());
 
         if(!manageSharedPref.getQuestionExists()){
             new GetQuestion(this, gQListener).execute();
         }else{
             questionText.setText(manageSharedPref.getQuestion());
+            if(!manageSharedPref.getIsQuestionAnswered()){
+                enableSubmit();
+            }
         }
 
         setupUpdateCheck();
         setAlarm();
-
 
     }
 
@@ -69,25 +68,29 @@ public class BaseActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                long millis = 0;
-                int seconds = (int) (millis / 1000);
 
+                updateHandler.postDelayed(this, 10000);
 
-                updateHandler.postDelayed(this, 600000);
-                System.out.println(seconds);
                 if(manageSharedPref.getUpdated()){
                     questionText.setText(manageSharedPref.getQuestion());
-                    yesButton.setClickable(true);
-                    noButton.setClickable(true);
-                    manageSharedPref.setIsQuestionAnswered(false);
+                    enableSubmit();
                     manageSharedPref.setUpdated(false);
-
                 }
-                //timerCount.setText(String.format("%d:%02d", minutes, seconds));
             }
         };
 
         updateHandler.postDelayed(updateRunnable, 0);
+    }
+
+    private void enableSubmit(){
+
+        yesButton.setVisibility(View.VISIBLE);
+        noButton.setVisibility(View.VISIBLE);
+    }
+
+    private void disableSubmit(){
+        yesButton.setVisibility(View.INVISIBLE);
+        noButton.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -115,13 +118,14 @@ public class BaseActivity extends AppCompatActivity {
     GetQuestionListener gQListener = new GetQuestionListener() {
         @Override
         public void onGetQuestionComplete(QuestionHolder question) {
-            System.out.println("Got question");
             questionText.setText(question.getQuestion());
+
             manageSharedPref.setQuestionExists(true);
-            manageSharedPref.setQuestion(question.getQuestion());
             manageSharedPref.setIsQuestionAnswered(false);
+            manageSharedPref.setUpdated(false);
+            manageSharedPref.setQuestion(question.getQuestion());
             manageSharedPref.setId(question.getId());
-            manageSharedPref.setUpdated(true);
+            enableSubmit();
 
         }
     };
@@ -129,9 +133,11 @@ public class BaseActivity extends AppCompatActivity {
     PostAnswerListener pAListener = new PostAnswerListener() {
         @Override
         public void onPostAnswerComplete() {
+
             manageSharedPref.setIsQuestionAnswered(true);
-            yesButton.setClickable(false);
-            noButton.setClickable(false);
+            manageSharedPref.setUpdated(false);
+            System.out.println("Answered: " + manageSharedPref.getIsQuestionAnswered());
+            disableSubmit();
         }
     };
 
@@ -158,8 +164,8 @@ public class BaseActivity extends AppCompatActivity {
         // Set the alarm to start at approximately 2:00 p.m.
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 19);
-        calendar.set(Calendar.MINUTE, 20);
+        calendar.set(Calendar.HOUR_OF_DAY, 21);
+        calendar.set(Calendar.MINUTE, 15);
 
         // With setInexactRepeating(), you have to use one of the AlarmManager interval
         // constants--in this case, AlarmManager.INTERVAL_DAY.
@@ -168,6 +174,11 @@ public class BaseActivity extends AppCompatActivity {
 
         //am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 3000, pi);
         //am.cancel(pi);
+    }
+
+    @Override
+    public void onBackPressed(){
+        finish();
     }
 
 }
