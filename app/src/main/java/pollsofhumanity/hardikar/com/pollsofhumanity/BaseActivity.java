@@ -1,17 +1,17 @@
 package pollsofhumanity.hardikar.com.pollsofhumanity;
 
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -19,14 +19,19 @@ import java.util.Calendar;
 
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetQuestion;
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetQuestionListener;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetResults;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetResultsListener;
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.PostAnswer;
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.PostAnswerListener;
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.QuestionHolder;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.ResultsHolder;
 
 public class BaseActivity extends AppCompatActivity {
     private TextView questionText;
     private Button yesButton, noButton;
     private ManageSharedPref manageSharedPref;
+    public Dialog resultsDialog;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,11 @@ public class BaseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_base);
 
         manageSharedPref = new ManageSharedPref(getApplicationContext());
+        context = this;
+
+        resultsDialog = new Dialog(this);
+        resultsDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        resultsDialog.setContentView(R.layout.dialog_results);
 
         yesButton = (Button)findViewById(R.id.butt_Yes);
         yesButton.setOnClickListener(yesListener);
@@ -57,8 +67,39 @@ public class BaseActivity extends AppCompatActivity {
         }
 
         setupUpdateCheck();
-        setAlarm();
+        setUpdateAlarm();
+        setResultsAlarm();
 
+        int showResults = this.getIntent().getIntExtra("results_ready", -1);
+        System.out.println("Show results: "+showResults);
+        if(showResults != -1){
+            System.out.println("Got results");
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        System.out.println("IN NEW INTENT");
+
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        System.out.println("IN ON RESUME");
+
+
+
+        int questionId = this.getIntent().getIntExtra("results_ready", -1);
+        if(questionId != -1){
+
+            new GetResults(questionId, gRListener).execute();
+        }
+
+
+        System.out.println("Show result in resume: " + questionId);
     }
 
     private void setupUpdateCheck(){
@@ -68,7 +109,7 @@ public class BaseActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                updateHandler.postDelayed(this, 10000);
+                updateHandler.postDelayed(this, 30000);
                 System.out.println("Checking for updates");
                 if(manageSharedPref.getUpdated()){
                     questionText.setText(manageSharedPref.getQuestion());
@@ -139,6 +180,18 @@ public class BaseActivity extends AppCompatActivity {
         }
     };
 
+    GetResultsListener gRListener = new GetResultsListener() {
+        @Override
+        public void onGetResultsComplete(ResultsHolder results) {
+
+            resultsDialog.show();
+
+            ((TextView) resultsDialog.findViewById(R.id.yes_count)).setText(Integer.toString(results.getYesCount()));
+            ((TextView) resultsDialog.findViewById(R.id.no_count)).setText(Integer.toString(results.getNoCount()));
+            ((TextView) resultsDialog.findViewById(R.id.total_count)).setText(Integer.toString(results.getTotal()));
+        }
+    };
+
     View.OnClickListener yesListener= new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -153,25 +206,37 @@ public class BaseActivity extends AppCompatActivity {
     };
 
 
-    private void setAlarm(){
+    private void setUpdateAlarm(){
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(BaseActivity.this, AlarmReceiver.class);
+        Intent intent = new Intent(BaseActivity.this, UpdateAlarmReceiver.class);
         PendingIntent pi = PendingIntent.getBroadcast(BaseActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         System.out.println("ALARM SET IN HERE");
         // Set the alarm to start at approximately 2:00 p.m.
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 10);
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
 
         // With setInexactRepeating(), you have to use one of the AlarmManager interval
         // constants--in this case, AlarmManager.INTERVAL_DAY.
         am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pi);
 
-        //am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 3000, pi);
-        //am.cancel(pi);
+    }
+
+    private void setResultsAlarm(){
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(BaseActivity.this, ResultsAlarmReceiver.class);
+        PendingIntent pi = PendingIntent.getBroadcast(BaseActivity.this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        System.out.println("IN RESULTS ALARM");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 57);
+
+        //am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
+        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pi);
     }
 
     @Override

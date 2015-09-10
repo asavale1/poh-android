@@ -11,7 +11,7 @@ import pollsofhumanity.hardikar.com.pollsofhumanity.server.QuestionHolder;
 /**
  * Created by ameya on 9/6/15.
  */
-public class AlarmReceiver extends BroadcastReceiver {
+public class UpdateAlarmReceiver extends BroadcastReceiver {
     private ManageSharedPref manageSharedPref;
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -32,7 +32,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
             manageSharedPref.setQuestion(question.getQuestion());
             manageSharedPref.setId(question.getId());
-           //manageSharedPref.updateQuestion(question.getQuestion(), question.getId());
 
         }
     };
