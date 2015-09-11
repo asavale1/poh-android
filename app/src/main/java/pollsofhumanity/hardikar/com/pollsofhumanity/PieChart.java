@@ -12,21 +12,21 @@ import android.view.View;
 /**
  * Created by ameya on 9/10/15.
  */
-public class PieGraph extends View {
+public class PieChart extends View {
     private int noCount, yesCount;
     private Paint paint;
 
-    public PieGraph(Context context, AttributeSet attrs) {
+    public PieChart(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         paint = new Paint();
 
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs,
-                R.styleable.PieGraph, 0, 0);
+                R.styleable.PieChart, 0, 0);
 
         try{
-            noCount = a.getInteger(R.styleable.PieGraph_noCount, 0);
-            yesCount = a.getInteger(R.styleable.PieGraph_yesCount, 0);
+            noCount = a.getInteger(R.styleable.PieChart_noCount, 0);
+            yesCount = a.getInteger(R.styleable.PieChart_yesCount, 0);
         }finally{
             a.recycle();
         }
@@ -35,12 +35,8 @@ public class PieGraph extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        // TODO Auto-generated method stub
-        //super.onDraw(canvas);
 
-        System.out.println("Yes COunt: " + yesCount);
         System.out.println("No Count: " + noCount);
-
         int viewWidthHalf = this.getMeasuredWidth() / 2;
         int viewHeightHalf = this.getMeasuredHeight() / 2;
 
@@ -75,5 +71,13 @@ public class PieGraph extends View {
         paint.setColor(Color.parseColor("#b11a12"));
         canvas.drawArc(oval, 90 + yesDegrees, 360 - yesDegrees, true, paint);
 
+    }
+
+    public void setNoCount(int noCount){
+        this.noCount = noCount;
+    }
+
+    public void setYesCount(int yesCount){
+        this.yesCount = yesCount;
     }
 }

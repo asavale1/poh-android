@@ -1,50 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="300dp"
-    android:layout_height="600dp"
-    android:id="@+id/dialog_layout">
+    android:layout_height="400dp"
+    android:id="@+id/dialog_layout"
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/question"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Question goes here"/>
+        android:text="Question goes here"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"/>
 
-    <pollsofhumanity.hardikar.com.pollsofhumanity.PieGraph
+    <pollsofhumanity.hardikar.com.pollsofhumanity.PieChart
         android:id="@+id/pie_chart"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        custom:yesCount="1"
-        custom:noCount="3"/>
+        android:layout_below="@id/question"
+        android:layout_marginBottom="10dp"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="25% Yes"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="75% No"/>
-
-    <!--<TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Results"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/yes_count"
-        android:text="yescount"/>
-    <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:id="@+id/no_count"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/total_count"/>-->
+        android:text="25% Yes"
+        android:textColor="#fff"
+        android:background="#117909"
+        android:padding="10dp"
+        android:gravity="center"
+        android:layout_below="@id/pie_chart"
+        android:layout_marginBottom="5dp"
+        android:layout_centerHorizontal="true"/>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/no_count"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="75% No"
+        android:textColor="#fff"
+        android:background="#b11a12"
+        android:padding="10dp"
+        android:gravity="center"
+        android:layout_below="@id/yes_count"
+        android:layout_centerHorizontal="true"/>
+
+
+</RelativeLayout>

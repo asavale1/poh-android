@@ -5,21 +5,14 @@ import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.RectF;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -101,10 +94,18 @@ public class BaseActivity extends AppCompatActivity {
 
 
         resultsDialog.setContentView(R.layout.dialog_results);
+        /*((PieChart) resultsDialog.findViewById(R.id.pie_chart)).setNoCount(3);
+        ((PieChart) resultsDialog.findViewById(R.id.pie_chart)).setYesCount(2);
 
-        resultsDialog.show();
+        DecimalFormat df = new DecimalFormat("#.##");
 
-        int questionId = this.getIntent().getIntExtra("results_ready", -1);
+        double yesRatio = ((double) 2) / ((double) (5));
+        ((TextView) resultsDialog.findViewById(R.id.yes_count)).setText("Yes " + df.format(yesRatio * 100) + "%");
+        ((TextView) resultsDialog.findViewById(R.id.no_count)).setText("No " + df.format((1 - yesRatio) * 100) + "%");
+
+        resultsDialog.show();*/
+
+        int questionId = this.getIntent().getIntExtra("question_id", -1);
         if(questionId != -1){
 
             new GetResults(questionId, gRListener).execute();
@@ -196,10 +197,18 @@ public class BaseActivity extends AppCompatActivity {
         @Override
         public void onGetResultsComplete(ResultsHolder results) {
 
+            ((PieChart) resultsDialog.findViewById(R.id.pie_chart)).setNoCount(results.getNoCount());
+            ((PieChart) resultsDialog.findViewById(R.id.pie_chart)).setYesCount(results.getYesCount());
 
-            //((TextView) resultsDialog.findViewById(R.id.yes_count)).setText(Integer.toString(results.getYesCount()));
-            //((TextView) resultsDialog.findViewById(R.id.no_count)).setText(Integer.toString(results.getNoCount()));
-            //((TextView) resultsDialog.findViewById(R.id.total_count)).setText(Integer.toString(results.getTotal()));
+            DecimalFormat df = new DecimalFormat("#.##");
+
+            double yesRatio = ((double) results.getYesCount()) / ((double) (results.getTotal()));
+            ((TextView) resultsDialog.findViewById(R.id.yes_count)).setText("Yes " + df.format(yesRatio * 100) + "%");
+            ((TextView) resultsDialog.findViewById(R.id.no_count)).setText("No " + df.format((1 - yesRatio) * 100) + "%");
+
+
+            resultsDialog.show();
+
         }
     };
 
