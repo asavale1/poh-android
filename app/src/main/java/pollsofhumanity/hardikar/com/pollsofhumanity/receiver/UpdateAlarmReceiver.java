@@ -1,12 +1,13 @@
-package pollsofhumanity.hardikar.com.pollsofhumanity;
+package pollsofhumanity.hardikar.com.pollsofhumanity.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import pollsofhumanity.hardikar.com.pollsofhumanity.ManageSharedPref;
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetQuestion;
-import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetQuestionListener;
-import pollsofhumanity.hardikar.com.pollsofhumanity.server.QuestionHolder;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.listener.GetQuestionListener;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.holder.QuestionHolder;
 
 /**
  * Created by ameya on 9/6/15.

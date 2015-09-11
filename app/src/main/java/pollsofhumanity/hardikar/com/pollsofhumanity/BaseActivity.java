@@ -5,26 +5,36 @@ import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
+import pollsofhumanity.hardikar.com.pollsofhumanity.receiver.ResultsAlarmReceiver;
+import pollsofhumanity.hardikar.com.pollsofhumanity.receiver.UpdateAlarmReceiver;
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetQuestion;
-import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetQuestionListener;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.listener.GetQuestionListener;
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetResults;
-import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetResultsListener;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.listener.GetResultsListener;
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.PostAnswer;
-import pollsofhumanity.hardikar.com.pollsofhumanity.server.PostAnswerListener;
-import pollsofhumanity.hardikar.com.pollsofhumanity.server.QuestionHolder;
-import pollsofhumanity.hardikar.com.pollsofhumanity.server.ResultsHolder;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.listener.PostAnswerListener;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.holder.QuestionHolder;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.holder.ResultsHolder;
 
 public class BaseActivity extends AppCompatActivity {
     private TextView questionText;
@@ -43,7 +53,6 @@ public class BaseActivity extends AppCompatActivity {
 
         resultsDialog = new Dialog(this);
         resultsDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        resultsDialog.setContentView(R.layout.dialog_results);
 
         yesButton = (Button)findViewById(R.id.butt_Yes);
         yesButton.setOnClickListener(yesListener);
@@ -91,6 +100,9 @@ public class BaseActivity extends AppCompatActivity {
         System.out.println("IN ON RESUME");
 
 
+        resultsDialog.setContentView(R.layout.dialog_results);
+
+        resultsDialog.show();
 
         int questionId = this.getIntent().getIntExtra("results_ready", -1);
         if(questionId != -1){
@@ -184,11 +196,10 @@ public class BaseActivity extends AppCompatActivity {
         @Override
         public void onGetResultsComplete(ResultsHolder results) {
 
-            resultsDialog.show();
 
-            ((TextView) resultsDialog.findViewById(R.id.yes_count)).setText(Integer.toString(results.getYesCount()));
-            ((TextView) resultsDialog.findViewById(R.id.no_count)).setText(Integer.toString(results.getNoCount()));
-            ((TextView) resultsDialog.findViewById(R.id.total_count)).setText(Integer.toString(results.getTotal()));
+            //((TextView) resultsDialog.findViewById(R.id.yes_count)).setText(Integer.toString(results.getYesCount()));
+            //((TextView) resultsDialog.findViewById(R.id.no_count)).setText(Integer.toString(results.getNoCount()));
+            //((TextView) resultsDialog.findViewById(R.id.total_count)).setText(Integer.toString(results.getTotal()));
         }
     };
 
