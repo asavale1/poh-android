@@ -3,9 +3,16 @@
     <item name="yellow" type="color">#EBFA00</item>
     <item name="blue" type="color">#587498</item>
     <item name="red" type="color">#E86850</item>
+    <item name="yellow_back" type="color">#E8FC30</item>
+    <item name="trans_blue" type="color">#CC587498</item>
+    <item name="trans_red"  type="color">#CCE86850</item>
     <integer-array name="androidcolors">
     <item>@color/yellow</item>
         <item>@color/blue</item>
         <item>@color/red</item>
+        <item>@color/yellow_back</item>
+        <item>@color/trans_blue</item>
+        <item>@color/trans_red</item>
+
     </integer-array>
 </resources>
