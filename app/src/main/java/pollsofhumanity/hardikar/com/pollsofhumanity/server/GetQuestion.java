@@ -14,6 +14,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import pollsofhumanity.hardikar.com.pollsofhumanity.R;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.holder.QuestionHolder;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.listener.GetQuestionListener;
 
 /**
  * Created by rahul on 06-09-2015.
