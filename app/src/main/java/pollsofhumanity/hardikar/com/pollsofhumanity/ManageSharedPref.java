@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 /**
- * Created by ameya on 9/6/15.
+ *
  */
 public class ManageSharedPref {
     SharedPreferences sharedPref;

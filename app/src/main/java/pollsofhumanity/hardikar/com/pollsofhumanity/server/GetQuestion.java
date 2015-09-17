@@ -16,7 +16,7 @@ import java.net.URL;
 import pollsofhumanity.hardikar.com.pollsofhumanity.R;
 
 /**
- * Created by rahul on 06-09-2015.
+ *
  */
 public class GetQuestion extends AsyncTask<Void, Void, QuestionHolder> {
     private String getQuestionUrl;

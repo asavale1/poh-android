@@ -1,7 +1,7 @@
 package pollsofhumanity.hardikar.com.pollsofhumanity.server;
 
 /**
- * Created by ameya on 9/7/15.
+ *
  */
 public class ResultsHolder {
     private int yesCount;

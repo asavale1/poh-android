@@ -1,7 +1,7 @@
 package pollsofhumanity.hardikar.com.pollsofhumanity.server;
 
 /**
- * Created by rahul on 06-09-2015.
+ *
  */
 public class QuestionHolder {
     private int id;

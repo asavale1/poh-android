@@ -9,7 +9,7 @@ import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetQuestionListener;
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.QuestionHolder;
 
 /**
- * Created by ameya on 9/6/15.
+ *
  */
 public class UpdateAlarmReceiver extends BroadcastReceiver {
     private ManageSharedPref manageSharedPref;

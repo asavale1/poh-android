@@ -13,7 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by ameya on 9/7/15.
+ *
  */
 public class GetResults extends AsyncTask<Void, Void, ResultsHolder> {
     private String getResultsUrl;
