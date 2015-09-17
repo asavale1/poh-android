@@ -35,7 +35,6 @@ public class BaseActivity extends AppCompatActivity {
     private Button yesButton, noButton;
     private ManageSharedPref manageSharedPref;
     public Dialog resultsDialog;
-    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +42,6 @@ public class BaseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_base);
 
         manageSharedPref = new ManageSharedPref(getApplicationContext());
-        context = this;
-
 
         resultsDialog = new Dialog(this);
         resultsDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -92,20 +89,8 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        System.out.println("IN ON RESUME");
-
 
         resultsDialog.setContentView(R.layout.dialog_results);
-        /*((PieChart) resultsDialog.findViewById(R.id.pie_chart)).setNoCount(3);
-        ((PieChart) resultsDialog.findViewById(R.id.pie_chart)).setYesCount(2);
-
-        DecimalFormat df = new DecimalFormat("#.##");
-
-        double yesRatio = ((double) 2) / ((double) (5));
-        ((TextView) resultsDialog.findViewById(R.id.yes_count)).setText("Yes " + df.format(yesRatio * 100) + "%");
-        ((TextView) resultsDialog.findViewById(R.id.no_count)).setText("No " + df.format((1 - yesRatio) * 100) + "%");
-
-        resultsDialog.show();*/
 
         int questionId = this.getIntent().getIntExtra("question_id", -1);
         if(questionId != -1){
@@ -208,7 +193,7 @@ public class BaseActivity extends AppCompatActivity {
             ((TextView) resultsDialog.findViewById(R.id.yes_count)).setText("Yes " + df.format(yesRatio * 100) + "%");
             ((TextView) resultsDialog.findViewById(R.id.no_count)).setText("No " + df.format((1 - yesRatio) * 100) + "%");
 
-
+            ((TextView) resultsDialog.findViewById(R.id.question)).setText(results.getQuestion());
             resultsDialog.show();
 
         }
@@ -254,11 +239,10 @@ public class BaseActivity extends AppCompatActivity {
         System.out.println("IN RESULTS ALARM");
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 57);
+        calendar.set(Calendar.HOUR_OF_DAY, 11);
 
-        //am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
-        am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pi);
+        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
+        //am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pi);
     }
 
     @Override
