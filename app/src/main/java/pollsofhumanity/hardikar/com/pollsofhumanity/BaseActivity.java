@@ -16,16 +16,19 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
+import pollsofhumanity.hardikar.com.pollsofhumanity.receiver.ResultsAlarmReceiver;
+import pollsofhumanity.hardikar.com.pollsofhumanity.receiver.UpdateAlarmReceiver;
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetQuestion;
-import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetQuestionListener;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.listener.GetQuestionListener;
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetResults;
-import pollsofhumanity.hardikar.com.pollsofhumanity.server.GetResultsListener;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.listener.GetResultsListener;
 import pollsofhumanity.hardikar.com.pollsofhumanity.server.PostAnswer;
-import pollsofhumanity.hardikar.com.pollsofhumanity.server.PostAnswerListener;
-import pollsofhumanity.hardikar.com.pollsofhumanity.server.QuestionHolder;
-import pollsofhumanity.hardikar.com.pollsofhumanity.server.ResultsHolder;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.listener.PostAnswerListener;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.holder.QuestionHolder;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.holder.ResultsHolder;
 
 public class BaseActivity extends AppCompatActivity {
     private TextView questionText;
@@ -45,7 +48,6 @@ public class BaseActivity extends AppCompatActivity {
 
         resultsDialog = new Dialog(this);
         resultsDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        resultsDialog.setContentView(R.layout.dialog_results);
 
         yesButton = (Button)findViewById(R.id.butt_Yes);
         yesButton.setOnClickListener(yesListener);
@@ -93,8 +95,19 @@ public class BaseActivity extends AppCompatActivity {
         System.out.println("IN ON RESUME");
 
 
+        resultsDialog.setContentView(R.layout.dialog_results);
+        /*((PieChart) resultsDialog.findViewById(R.id.pie_chart)).setNoCount(3);
+        ((PieChart) resultsDialog.findViewById(R.id.pie_chart)).setYesCount(2);
 
-        int questionId = this.getIntent().getIntExtra("results_ready", -1);
+        DecimalFormat df = new DecimalFormat("#.##");
+
+        double yesRatio = ((double) 2) / ((double) (5));
+        ((TextView) resultsDialog.findViewById(R.id.yes_count)).setText("Yes " + df.format(yesRatio * 100) + "%");
+        ((TextView) resultsDialog.findViewById(R.id.no_count)).setText("No " + df.format((1 - yesRatio) * 100) + "%");
+
+        resultsDialog.show();*/
+
+        int questionId = this.getIntent().getIntExtra("question_id", -1);
         if(questionId != -1){
 
             new GetResults(questionId, gRListener).execute();
@@ -186,11 +199,18 @@ public class BaseActivity extends AppCompatActivity {
         @Override
         public void onGetResultsComplete(ResultsHolder results) {
 
+            ((PieChart) resultsDialog.findViewById(R.id.pie_chart)).setNoCount(results.getNoCount());
+            ((PieChart) resultsDialog.findViewById(R.id.pie_chart)).setYesCount(results.getYesCount());
+
+            DecimalFormat df = new DecimalFormat("#.##");
+
+            double yesRatio = ((double) results.getYesCount()) / ((double) (results.getTotal()));
+            ((TextView) resultsDialog.findViewById(R.id.yes_count)).setText("Yes " + df.format(yesRatio * 100) + "%");
+            ((TextView) resultsDialog.findViewById(R.id.no_count)).setText("No " + df.format((1 - yesRatio) * 100) + "%");
+
+
             resultsDialog.show();
 
-            ((TextView) resultsDialog.findViewById(R.id.yes_count)).setText(Integer.toString(results.getYesCount()));
-            ((TextView) resultsDialog.findViewById(R.id.no_count)).setText(Integer.toString(results.getNoCount()));
-            ((TextView) resultsDialog.findViewById(R.id.total_count)).setText(Integer.toString(results.getTotal()));
         }
     };
 

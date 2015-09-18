@@ -1,4 +1,4 @@
-package pollsofhumanity.hardikar.com.pollsofhumanity.server;
+package pollsofhumanity.hardikar.com.pollsofhumanity.server.holder;
 
 /**
  *

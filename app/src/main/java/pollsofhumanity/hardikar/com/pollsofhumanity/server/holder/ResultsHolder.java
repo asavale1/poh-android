@@ -1,4 +1,4 @@
-package pollsofhumanity.hardikar.com.pollsofhumanity.server;
+package pollsofhumanity.hardikar.com.pollsofhumanity.server.holder;
 
 /**
  *
@@ -7,6 +7,7 @@ public class ResultsHolder {
     private int yesCount;
     private int noCount;
     private int total;
+    private String question;
 
     public ResultsHolder(){}
 

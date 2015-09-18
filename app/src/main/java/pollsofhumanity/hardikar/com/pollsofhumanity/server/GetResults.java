@@ -12,6 +12,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.holder.ResultsHolder;
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.listener.GetResultsListener;
+
 /**
  *
  */

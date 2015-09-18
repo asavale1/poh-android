@@ -1,6 +1,5 @@
 package pollsofhumanity.hardikar.com.pollsofhumanity.server;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
@@ -11,6 +10,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import pollsofhumanity.hardikar.com.pollsofhumanity.server.listener.PostAnswerListener;
 
 /**
  *
