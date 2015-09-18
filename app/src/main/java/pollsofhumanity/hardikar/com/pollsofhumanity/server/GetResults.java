@@ -58,6 +58,7 @@ public class GetResults extends AsyncTask<Void, Void, ResultsHolder> {
             results.setYesCount(resultDetails.getInt("yes_count"));
             results.setNoCount(resultDetails.getInt("no_count"));
             results.setTotal(resultDetails.getInt("total"));
+            results.setQuestion(resultDetails.getString("question"));
 
         } catch (JSONException e) {
             e.printStackTrace();

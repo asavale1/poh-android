@@ -20,4 +20,7 @@ public class ResultsHolder {
     public void setTotal(int total){ this.total = total; }
     public int getTotal(){ return this.total; }
 
+    public void setQuestion(String question){ this.question = question; }
+    public String getQuestion(){ return this.question; }
+
 }

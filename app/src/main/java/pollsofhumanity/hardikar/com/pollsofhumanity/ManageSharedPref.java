@@ -54,4 +54,14 @@ public class ManageSharedPref {
         editor.commit();
     }
 
+    public void setResultsId(int id){
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("results_id", id);
+        editor.commit();
+    }
+
+    public int getResultsId(){
+        return sharedPref.getInt("results_id", -1);
+    }
+
 }
