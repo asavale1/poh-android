@@ -37,7 +37,6 @@ public class ResultsAlarmReceiver extends BroadcastReceiver {
 
     public Notification createNotification(Context context){
 
-        manageSharedPref.setResultsId(manageSharedPref.getId());
 
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context);
         nb.setContentTitle("Results ready");

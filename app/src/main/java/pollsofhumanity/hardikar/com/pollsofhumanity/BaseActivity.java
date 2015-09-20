@@ -67,7 +67,7 @@ public class BaseActivity extends AppCompatActivity {
 
         setupUpdateCheck();
         setUpdateAlarm();
-        setResultsAlarm();
+        //setResultsAlarm();
 
     }
 
@@ -214,11 +214,11 @@ public class BaseActivity extends AppCompatActivity {
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 12);
 
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, pi);
+        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
+        //am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pi);
 
     }
-
+/*
     private void setResultsAlarm(){
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(BaseActivity.this, ResultsAlarmReceiver.class);
@@ -230,7 +230,7 @@ public class BaseActivity extends AppCompatActivity {
 
         am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
         //am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pi);
-    }
+    }*/
 
     @Override
     public void onBackPressed(){
