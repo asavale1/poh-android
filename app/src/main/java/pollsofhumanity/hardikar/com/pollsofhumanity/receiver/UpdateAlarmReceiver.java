@@ -28,11 +28,14 @@ public class UpdateAlarmReceiver extends BroadcastReceiver {
         public void onGetQuestionComplete(QuestionHolder question) {
             System.out.println("Got question");
 
-            manageSharedPref.setIsQuestionAnswered(false);
-            manageSharedPref.setUpdated(true);
+            if(manageSharedPref.getId() != question.getId()){
+                manageSharedPref.setIsQuestionAnswered(false);
+                manageSharedPref.setUpdated(true);
 
-            manageSharedPref.setQuestion(question.getQuestion());
-            manageSharedPref.setId(question.getId());
+                manageSharedPref.setQuestion(question.getQuestion());
+                manageSharedPref.setId(question.getId());
+            }
+
 
         }
     };

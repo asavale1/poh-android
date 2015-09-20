@@ -71,6 +71,19 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
+    View.OnClickListener yesListener= new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            new PostAnswer(manageSharedPref.getId(), "yes", pAListener).execute();
+        }
+    };
+    View.OnClickListener noListener= new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            new PostAnswer(manageSharedPref.getId(), "no", pAListener).execute();
+        }
+    };
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -191,21 +204,7 @@ public class BaseActivity extends AppCompatActivity {
 
         }
     };
-
-    View.OnClickListener yesListener= new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            new PostAnswer(manageSharedPref.getId(), "yes", pAListener).execute();
-        }
-    };
-    View.OnClickListener noListener= new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             new PostAnswer(manageSharedPref.getId(), "no", pAListener).execute();
-        }
-    };
-
-
+    
     private void setUpdateAlarm(){
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(BaseActivity.this, UpdateAlarmReceiver.class);

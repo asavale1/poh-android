@@ -25,7 +25,7 @@ public class GetQuestion extends AsyncTask<Void, Void, QuestionHolder> {
     private GetQuestionListener listener;
 
     public GetQuestion(Context context, GetQuestionListener listener) {
-        this.getQuestionUrl = context.getString(R.string.get_question_url); //"http://polls-of-humanity.herokuapp.com/api/get_question";
+        this.getQuestionUrl = context.getString(R.string.get_question_url);
         this.listener = listener;
     }
 
