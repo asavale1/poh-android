@@ -39,11 +39,10 @@ public class ResultsAlarmReceiver extends BroadcastReceiver {
 
         manageSharedPref.setResultsId(manageSharedPref.getId());
 
-        System.out.println("Result notification created");
         NotificationCompat.Builder nb = new NotificationCompat.Builder(context);
         nb.setContentTitle("Results ready");
         nb.setAutoCancel(true);
-        nb.setSmallIcon(R.drawable.oval_button_yes);
+        nb.setSmallIcon(R.drawable.notification_icon);
 
         Intent resultIntent = new Intent(context, BaseActivity.class);
         resultIntent.putExtra("question_id", manageSharedPref.getResultsId());

@@ -56,8 +56,6 @@ public class BaseActivity extends AppCompatActivity {
 
         disableSubmit();
 
-        System.out.println("Check for update: " + manageSharedPref.getUpdated());
-        System.out.println("ID: " + manageSharedPref.getId());
         if(manageSharedPref.getId() == -1){
             new GetQuestion(this, gQListener).execute();
         }else{
@@ -71,11 +69,6 @@ public class BaseActivity extends AppCompatActivity {
         setUpdateAlarm();
         setResultsAlarm();
 
-        int showResults = this.getIntent().getIntExtra("results_ready", -1);
-        System.out.println("Show results: "+showResults);
-        if(showResults != -1){
-            System.out.println("Got results");
-        }
     }
 
     @Override
@@ -218,14 +211,10 @@ public class BaseActivity extends AppCompatActivity {
         Intent intent = new Intent(BaseActivity.this, UpdateAlarmReceiver.class);
         PendingIntent pi = PendingIntent.getBroadcast(BaseActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        System.out.println("ALARM SET IN HERE");
-        // Set the alarm to start at approximately 2:00 p.m.
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 12);
 
-        // With setInexactRepeating(), you have to use one of the AlarmManager interval
-        // constants--in this case, AlarmManager.INTERVAL_DAY.
         am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pi);
 
@@ -236,7 +225,6 @@ public class BaseActivity extends AppCompatActivity {
         Intent intent = new Intent(BaseActivity.this, ResultsAlarmReceiver.class);
         PendingIntent pi = PendingIntent.getBroadcast(BaseActivity.this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        System.out.println("IN RESULTS ALARM");
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 11);
