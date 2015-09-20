@@ -12,7 +12,7 @@
         android:id="@+id/question_Text"/>
     <Button
         android:layout_width="150dp"
-        android:layout_height="51dp"
+        android:layout_height="50dp"
         android:text="Yes"
         android:background="@drawable/roundedoff_yesbutton"
         android:id="@+id/butt_Yes"
@@ -23,7 +23,7 @@
 
     <Button
         android:layout_width="150dp"
-        android:layout_height="51dp"
+        android:layout_height="50dp"
         android:background="@drawable/roundedoff_nobutton"
         android:text="No"
         android:id="@+id/butt_No"
