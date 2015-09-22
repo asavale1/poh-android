@@ -71,19 +71,22 @@ public class BaseActivity extends AppCompatActivity {
 
         setupUpdateCheck();
         setUpdateAlarm();
-        //setResultsAlarm();
 
     }
 
     View.OnClickListener yesListener= new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            loadingDialog.setContentView(R.layout.dialog_submit_answer);
+            loadingDialog.show();
             new PostAnswer(manageSharedPref.getId(), "yes", pAListener).execute();
         }
     };
     View.OnClickListener noListener= new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            loadingDialog.setContentView(R.layout.dialog_submit_answer);
+            loadingDialog.show();
             new PostAnswer(manageSharedPref.getId(), "no", pAListener).execute();
         }
     };
@@ -168,7 +171,7 @@ public class BaseActivity extends AppCompatActivity {
     GetQuestionListener gQListener = new GetQuestionListener() {
         @Override
         public void onGetQuestionComplete(QuestionHolder question) {
-            loadingDialog.dismiss();
+            //loadingDialog.dismiss();
             questionText.setText(question.getQuestion());
 
             manageSharedPref.setIsQuestionAnswered(false);
@@ -183,7 +186,7 @@ public class BaseActivity extends AppCompatActivity {
     PostAnswerListener pAListener = new PostAnswerListener() {
         @Override
         public void onPostAnswerComplete() {
-
+            loadingDialog.dismiss();
             manageSharedPref.setIsQuestionAnswered(true);
             manageSharedPref.setUpdated(false);
             System.out.println("Answered: " + manageSharedPref.getIsQuestionAnswered());
@@ -223,19 +226,6 @@ public class BaseActivity extends AppCompatActivity {
         //am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pi);
 
     }
-/*
-    private void setResultsAlarm(){
-        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(BaseActivity.this, ResultsAlarmReceiver.class);
-        PendingIntent pi = PendingIntent.getBroadcast(BaseActivity.this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 11);
-
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
-        //am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pi);
-    }*/
 
     @Override
     public void onBackPressed(){
