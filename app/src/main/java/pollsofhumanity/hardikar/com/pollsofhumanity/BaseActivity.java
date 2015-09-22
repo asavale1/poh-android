@@ -58,6 +58,8 @@ public class BaseActivity extends AppCompatActivity {
 
         disableSubmit();
 
+        calculateTime();
+
         if(manageSharedPref.getId() == -1){
             loadingDialog.setContentView(R.layout.dialog_get_question);
             loadingDialog.show();
@@ -222,9 +224,25 @@ public class BaseActivity extends AppCompatActivity {
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 12);
 
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
-        //am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pi);
+        //am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
+        am.set(AlarmManager.RTC_WAKEUP, calculateTime(), pi);
 
+    }
+
+    private long calculateTime(){
+        long offset;
+        Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        System.out.println("HOUR: " + hour);
+        if(hour < 12){
+            offset = (long)((12 - hour)*60*60*1000);
+            System.out.println("Before " + offset);
+        }else{
+            offset = (long)(((24 - hour)+12) * 60 * 60 * 1000);
+            System.out.println(offset);
+        }
+
+        return (System.currentTimeMillis() + offset);
     }
 
     @Override
