@@ -34,7 +34,7 @@ public class BaseActivity extends AppCompatActivity {
     private TextView questionText;
     private Button yesButton, noButton;
     private ManageSharedPref manageSharedPref;
-    public Dialog resultsDialog;
+    public Dialog resultsDialog, loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,8 @@ public class BaseActivity extends AppCompatActivity {
 
         resultsDialog = new Dialog(this);
         resultsDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        loadingDialog = new Dialog(this);
+        loadingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         yesButton = (Button)findViewById(R.id.butt_Yes);
         yesButton.setOnClickListener(yesListener);
@@ -57,6 +59,8 @@ public class BaseActivity extends AppCompatActivity {
         disableSubmit();
 
         if(manageSharedPref.getId() == -1){
+            loadingDialog.setContentView(R.layout.dialog_get_question);
+            loadingDialog.show();
             new GetQuestion(this, gQListener).execute();
         }else{
             questionText.setText(manageSharedPref.getQuestion());
@@ -164,6 +168,7 @@ public class BaseActivity extends AppCompatActivity {
     GetQuestionListener gQListener = new GetQuestionListener() {
         @Override
         public void onGetQuestionComplete(QuestionHolder question) {
+            loadingDialog.dismiss();
             questionText.setText(question.getQuestion());
 
             manageSharedPref.setIsQuestionAnswered(false);
