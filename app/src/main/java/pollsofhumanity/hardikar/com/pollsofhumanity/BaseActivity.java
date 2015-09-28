@@ -58,7 +58,7 @@ public class BaseActivity extends AppCompatActivity {
 
         disableSubmit();
 
-        calculateTime();
+        //calculateTime();
 
         if(manageSharedPref.getId() == -1){
             loadingDialog.setContentView(R.layout.dialog_get_question);
@@ -173,7 +173,7 @@ public class BaseActivity extends AppCompatActivity {
     GetQuestionListener gQListener = new GetQuestionListener() {
         @Override
         public void onGetQuestionComplete(QuestionHolder question) {
-            //loadingDialog.dismiss();
+            loadingDialog.dismiss();
             questionText.setText(question.getQuestion());
 
             manageSharedPref.setIsQuestionAnswered(false);
@@ -224,8 +224,8 @@ public class BaseActivity extends AppCompatActivity {
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 12);
 
-        //am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
-        am.set(AlarmManager.RTC_WAKEUP, calculateTime(), pi);
+        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
+        //am.set(AlarmManager.RTC_WAKEUP, calculateTime(), pi);
 
     }
 
