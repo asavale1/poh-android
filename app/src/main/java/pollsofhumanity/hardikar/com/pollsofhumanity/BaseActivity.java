@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import pollsofhumanity.hardikar.com.pollsofhumanity.receiver.ResultsAlarmReceiver;
 import pollsofhumanity.hardikar.com.pollsofhumanity.receiver.UpdateAlarmReceiver;
@@ -58,6 +59,8 @@ public class BaseActivity extends AppCompatActivity {
 
         disableSubmit();
 
+        //calculateTime();
+
         if(manageSharedPref.getId() == -1){
             loadingDialog.setContentView(R.layout.dialog_get_question);
             loadingDialog.show();
@@ -71,19 +74,22 @@ public class BaseActivity extends AppCompatActivity {
 
         setupUpdateCheck();
         setUpdateAlarm();
-        //setResultsAlarm();
 
     }
 
     View.OnClickListener yesListener= new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            loadingDialog.setContentView(R.layout.dialog_submit_answer);
+            loadingDialog.show();
             new PostAnswer(manageSharedPref.getId(), "yes", pAListener).execute();
         }
     };
     View.OnClickListener noListener= new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            loadingDialog.setContentView(R.layout.dialog_submit_answer);
+            loadingDialog.show();
             new PostAnswer(manageSharedPref.getId(), "no", pAListener).execute();
         }
     };
@@ -183,7 +189,7 @@ public class BaseActivity extends AppCompatActivity {
     PostAnswerListener pAListener = new PostAnswerListener() {
         @Override
         public void onPostAnswerComplete() {
-
+            loadingDialog.dismiss();
             manageSharedPref.setIsQuestionAnswered(true);
             manageSharedPref.setUpdated(false);
             System.out.println("Answered: " + manageSharedPref.getIsQuestionAnswered());
@@ -215,27 +221,15 @@ public class BaseActivity extends AppCompatActivity {
         Intent intent = new Intent(BaseActivity.this, UpdateAlarmReceiver.class);
         PendingIntent pi = PendingIntent.getBroadcast(BaseActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 12);
+        calendar.set(Calendar.MINUTE, 00);
+
 
         am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
-        //am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pi);
 
     }
-/*
-    private void setResultsAlarm(){
-        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(BaseActivity.this, ResultsAlarmReceiver.class);
-        PendingIntent pi = PendingIntent.getBroadcast(BaseActivity.this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 11);
-
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
-        //am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pi);
-    }*/
 
     @Override
     public void onBackPressed(){

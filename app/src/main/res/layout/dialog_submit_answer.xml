@@ -13,8 +13,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Getting question"
+        android:text="Submitting answer"
         android:textSize="15sp"
         android:layout_gravity="center_vertical"/>
-
 </LinearLayout>
