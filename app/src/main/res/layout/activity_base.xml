@@ -11,7 +11,7 @@
         android:text="ee?"
         android:id="@+id/question_Text"/>
     <Button
-        android:layout_width="151dp"
+        android:layout_width="150dp"
         android:layout_height="50dp"
         android:background="@drawable/checkmark"
         android:id="@+id/butt_Yes"
@@ -21,7 +21,7 @@
         />
 
     <Button
-        android:layout_width="151dp"
+        android:layout_width="150dp"
         android:layout_height="50dp"
         android:background="@drawable/crossmark"
         android:id="@+id/butt_No"
