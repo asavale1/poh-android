@@ -11,8 +11,8 @@
         android:text="ee?"
         android:id="@+id/question_Text"/>
     <Button
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
         android:background="@drawable/checkmark"
         android:id="@+id/butt_Yes"
         android:layout_alignParentBottom="true"
@@ -23,8 +23,7 @@
     <Button
         android:layout_width="150dp"
         android:layout_height="50dp"
-        android:background="@drawable/cross"
-        android:text="No"
+        android:background="@drawable/crossmark"
         android:id="@+id/butt_No"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
