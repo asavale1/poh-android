@@ -59,8 +59,6 @@ public class BaseActivity extends AppCompatActivity {
 
         disableSubmit();
 
-        //calculateTime();
-
         if(manageSharedPref.getId() == -1){
             loadingDialog.setContentView(R.layout.dialog_get_question);
             loadingDialog.show();
