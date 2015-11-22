@@ -1,32 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".BaseActivity"
-    android:background="@drawable/back_ground">
+    tools:context="co.digitaldavinci.pollsofhumanity.BaseActivity"
+    android:background="#fff">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ee?"
-        android:id="@+id/question_Text"/>
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:background="@drawable/checkmark"
-        android:id="@+id/butt_Yes"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="4dp"
-        />
-
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:background="@drawable/crossmark"
-        android:id="@+id/butt_No"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="4dp"/>
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </RelativeLayout>
