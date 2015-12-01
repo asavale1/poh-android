@@ -29,7 +29,7 @@ public class ManageSharedPref {
     }
 
     public String getCurrentQuestion(){
-        return sharedPref.getString("question", "Waiting for question");
+        return sharedPref.getString("question", "");
     }
 
     public void setCurrentQuestionId(int id){

@@ -1,8 +1,11 @@
 package co.digitaldavinci.pollsofhumanity;
 
 import android.app.Dialog;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,14 +37,17 @@ public class BaseFragment extends Fragment {
         loadingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         loadingDialog.setContentView(R.layout.dialog_loading);
         loadingDialog.setCancelable(false);
+        loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         View view = inflater.inflate(R.layout.fragment_base, container, false);
 
         yesButton = (Button) view.findViewById(R.id.butt_Yes);
         yesButton.setOnClickListener(yesButtonListener);
+        yesButton.setText(Html.fromHtml("\u2713"));
 
         noButton = (Button) view.findViewById(R.id.butt_No);
         noButton.setOnClickListener(noButtonListener);
+        noButton.setText(Html.fromHtml("\u2715"));
 
         if(manageSharedPref.getCurrentQuestionAnswered()){
             if(manageSharedPref.getCurrentQuestionAnswer()){
@@ -52,8 +58,10 @@ public class BaseFragment extends Fragment {
         }
 
         question = (TextView) view.findViewById(R.id.question_Text);
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-CondLight.ttf");
+        question.setTypeface(font);
 
-        if(manageSharedPref.getUpdate()){
+        if(manageSharedPref.getUpdate() || manageSharedPref.getCurrentQuestion().isEmpty()){
             System.out.println("Getting question from server");
             manageSharedPref.setResultsId(manageSharedPref.getCurrentQuestionId());
             ((TextView) loadingDialog.findViewById(R.id.action)).setText("Getting question");

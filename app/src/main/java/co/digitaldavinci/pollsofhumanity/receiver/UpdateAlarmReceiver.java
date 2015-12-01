@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 
 import co.digitaldavinci.pollsofhumanity.BaseActivity;
@@ -31,9 +32,10 @@ public class UpdateAlarmReceiver extends BroadcastReceiver {
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         nb = new NotificationCompat.Builder(context);
-        nb.setContentTitle("New Question");
+        nb.setContentTitle("New question published");
         nb.setAutoCancel(true);
-        nb.setSmallIcon(R.drawable.notification_icon);
+        nb.setSmallIcon(R.drawable.graph);
+        nb.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.notification));
 
         Intent resultIntent = new Intent(context, BaseActivity.class);
 

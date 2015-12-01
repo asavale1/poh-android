@@ -2,7 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/dialog_layout">
+    android:id="@+id/dialog_layout"
+    android:background="#e4d981">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="No results to show"
+        android:id="@+id/no_result"
+        android:textSize="20sp" />
 
     <RelativeLayout
         android:visibility="invisible"
@@ -17,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Question goes here"
+            android:textSize="20sp"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"/>
 
@@ -52,21 +62,6 @@
             android:layout_below="@id/yes_count"
             android:layout_centerHorizontal="true"/>
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/loading_layout"
-        android:background="#e4d981"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Waiting for results"
-            android:textSize="20sp"
-            android:textColor="#000"/>
     </RelativeLayout>
 
 </RelativeLayout>
