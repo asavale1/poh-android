@@ -38,6 +38,9 @@ public class ResultFragment extends Fragment {
         ((BaseActivity) getActivity()).setActionBarButtonToHome();
 
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-CondLight.ttf");
+        ((TextView) view.findViewById(R.id.question)).setTypeface(font);
+        ((TextView) view.findViewById(R.id.no_count)).setTypeface(font);
+        ((TextView) view.findViewById(R.id.yes_count)).setTypeface(font);
         ((TextView) view.findViewById(R.id.no_result)).setTypeface(font);
 
         int resultId = manageSharedPref.getResultsId();
@@ -47,9 +50,10 @@ public class ResultFragment extends Fragment {
 
             ((TextView) loadingDialog.findViewById(R.id.action)).setText("Getting results");
             ((TextView) loadingDialog.findViewById(R.id.action)).setTypeface(font);
+
             loadingDialog.show();
             new GetResults(resultId, gRListener).execute();
-            view.findViewById(R.id.no_result).setVisibility(View.GONE);
+            view.findViewById(R.id.no_result_layout).setVisibility(View.GONE);
         }
 
 
@@ -66,16 +70,10 @@ public class ResultFragment extends Fragment {
 
             double yesRatio = ((double) results.getYesCount()) / ((double) (results.getTotal()));
 
-            Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-CondLight.ttf");
-
-            ((TextView) view.findViewById(R.id.yes_count)).setText("Yes " + df.format(yesRatio * 100) + "%");
-            ((TextView) view.findViewById(R.id.yes_count)).setTypeface(font);
-
-            ((TextView) view.findViewById(R.id.no_count)).setText("No " + df.format((1 - yesRatio) * 100) + "%");
-            ((TextView) view.findViewById(R.id.no_count)).setTypeface(font);
-
+            ((TextView) view.findViewById(R.id.yes_count)).setText(df.format(yesRatio * 100) + "% of users world wide said yes");
+            ((TextView) view.findViewById(R.id.no_count)).setText(df.format((1 - yesRatio) * 100) + "% of users world wide said no");
             ((TextView) view.findViewById(R.id.question)).setText(results.getQuestion());
-            ((TextView) view.findViewById(R.id.question)).setTypeface(font);
+
 
             view.findViewById(R.id.results_layout).setVisibility(View.VISIBLE);
 

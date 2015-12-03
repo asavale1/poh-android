@@ -16,7 +16,7 @@
         android:id="@+id/question_Text"
         android:textSize="30sp"
         android:textColor="#000"
-        android:background="#e4d981"/>
+        android:background="#b6e950"/>
 
     <Button
         android:layout_width="150dp"

@@ -13,7 +13,7 @@
         android:layout_centerHorizontal="true"
         android:visibility="visible"
         app:indicator="BallPulse"
-        app:indicator_color="#e4d981" />
+        app:indicator_color="#b6e950" />
 
     <TextView
         android:id="@+id/action"

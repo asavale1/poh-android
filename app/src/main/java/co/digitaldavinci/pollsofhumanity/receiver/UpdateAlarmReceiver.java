@@ -26,6 +26,7 @@ public class UpdateAlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         manageSharedPref = new ManageSharedPref(context);
+        System.out.println("In this receieve");
         new GetQuestion(context, gQListener).execute();
 
         mNotificationManager =
@@ -35,12 +36,14 @@ public class UpdateAlarmReceiver extends BroadcastReceiver {
         nb.setContentTitle("New question published");
         nb.setAutoCancel(true);
         nb.setSmallIcon(R.drawable.graph);
-        nb.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.notification));
+        nb.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.logox100));
 
         Intent resultIntent = new Intent(context, BaseActivity.class);
 
         PendingIntent pi = PendingIntent.getActivity(context, 0, resultIntent, 0);
         nb.setContentIntent(pi);
+
+        System.out.println("In alarm on receiev");
     }
 
     GetQuestionListener gQListener = new GetQuestionListener() {
@@ -48,6 +51,7 @@ public class UpdateAlarmReceiver extends BroadcastReceiver {
         public void onGetQuestionComplete(QuestionHolder question) {
             System.out.println("Current question id: " + manageSharedPref.getCurrentQuestionId());
             System.out.println("New question id: " + question.getId());
+
 
             if(manageSharedPref.getCurrentQuestionId() != question.getId()){
                 manageSharedPref.setUpdate(true);

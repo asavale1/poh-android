@@ -62,15 +62,17 @@ public class BaseFragment extends Fragment {
         question.setTypeface(font);
 
         if(manageSharedPref.getUpdate() || manageSharedPref.getCurrentQuestion().isEmpty()){
-            System.out.println("Getting question from server");
+
             manageSharedPref.setResultsId(manageSharedPref.getCurrentQuestionId());
             ((TextView) loadingDialog.findViewById(R.id.action)).setText("Getting question");
             loadingDialog.show();
             new GetQuestion(getActivity(), gQListener).execute();
+
         }else{
-            ((TextView) loadingDialog.findViewById(R.id.action)).setText("From server");
-            System.out.println("Getting question from cache:\t" + manageSharedPref.getCurrentQuestionId());
+
+            ((TextView) loadingDialog.findViewById(R.id.action)).setText("Getting question");
             question.setText(manageSharedPref.getCurrentQuestion());
+
         }
 
         return view;
