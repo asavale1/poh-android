@@ -34,6 +34,7 @@ public class UpdateAlarmReceiver extends BroadcastReceiver {
 
         nb = new NotificationCompat.Builder(context);
         nb.setContentTitle("New question published");
+        nb.setContentText("The results of the old question are ready");
         nb.setAutoCancel(true);
         nb.setSmallIcon(R.drawable.graph);
         nb.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.logox100));

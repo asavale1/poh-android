@@ -46,16 +46,14 @@ public class ResultFragment extends Fragment {
 
         int resultId = manageSharedPref.getResultsId();
 
-        if(resultId != -1){
-            System.out.println("resultId\t" + resultId);
+        System.out.println("resultId\t" + resultId);
 
-            ((TextView) loadingDialog.findViewById(R.id.action)).setText("Getting results");
-            ((TextView) loadingDialog.findViewById(R.id.action)).setTypeface(font);
+        ((TextView) loadingDialog.findViewById(R.id.action)).setText("Getting results");
+        ((TextView) loadingDialog.findViewById(R.id.action)).setTypeface(font);
 
-            loadingDialog.show();
-            new GetResults(resultId, gRListener).execute();
-            view.findViewById(R.id.no_result_layout).setVisibility(View.GONE);
-        }
+        loadingDialog.show();
+        new GetResults(resultId, gRListener).execute();
+        view.findViewById(R.id.no_result_layout).setVisibility(View.GONE);
 
         final Dialog helpDialog = new Dialog(getActivity());
         helpDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

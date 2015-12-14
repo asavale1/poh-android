@@ -100,7 +100,11 @@ public class BaseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 TextView helpText = (TextView) helpDialog.findViewById(R.id.help);
-                helpText.setText("Each day you will get a question.\n\nAnswer it anonymously with yes or no.\n\nIn 24 hours you will receive a new question");
+                helpText.setText("Each day you will get a question.\n\n" +
+                        "Answer it anonymously with yes or no.\n\n" +
+                        "Please be honest with your responses\n\n" +
+                        "In 24 hours you will receive a new question\n\n" +
+                        "Tap on the bar graph icon on the top left corner, to view the poll results of the previous question.");
                 helpText.setTypeface(font);
                 helpDialog.show();
             }
