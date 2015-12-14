@@ -1,9 +1,11 @@
 package co.digitaldavinci.pollsofhumanity;
 
 import android.app.Dialog;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -12,6 +14,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.Calendar;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import co.digitaldavinci.pollsofhumanity.R;
 
@@ -26,9 +32,17 @@ import co.digitaldavinci.pollsofhumanity.server.listener.PostAnswerListener;
  */
 public class BaseFragment extends Fragment {
     private ManageSharedPref manageSharedPref;
-    private TextView question;
+    private TextView question, timeTill;
     private Button noButton, yesButton;
     private Dialog loadingDialog;
+
+    Handler handler = new Handler();
+    Runnable runnable = new Runnable() {
+        public void run() {
+            calculateTimeTill();
+        }
+    };
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         manageSharedPref = new ManageSharedPref(getActivity().getApplicationContext());
@@ -58,8 +72,11 @@ public class BaseFragment extends Fragment {
         }
 
         question = (TextView) view.findViewById(R.id.question_Text);
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-CondLight.ttf");
+        final Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-CondLight.ttf");
         question.setTypeface(font);
+
+        timeTill = (TextView) view.findViewById(R.id.time_till);
+        timeTill.setTypeface(font);
 
         if(manageSharedPref.getUpdate() || manageSharedPref.getCurrentQuestion().isEmpty()){
 
@@ -75,7 +92,54 @@ public class BaseFragment extends Fragment {
 
         }
 
+        final Dialog helpDialog = new Dialog(getActivity());
+        helpDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        helpDialog.setContentView(R.layout.dialog_help);
+        Button help = (Button) view.findViewById(R.id.help);
+        help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView helpText = (TextView) helpDialog.findViewById(R.id.help);
+                helpText.setText("Each day you will get a question.\n\nAnswer it anonymously with yes or no.\n\nIn 24 hours you will receive a new question");
+                helpText.setTypeface(font);
+                helpDialog.show();
+            }
+        });
+
+        runnable.run();
+
         return view;
+    }
+
+
+    private void calculateTimeTill(){
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+        long curTime = cal.getTimeInMillis();
+
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
+        calendar.set(Calendar.MINUTE, 00);
+        long alarmTime = calendar.getTimeInMillis();
+
+        if(curTime > alarmTime){
+            double millis = ((alarmTime + (24 * 60 * 60 * 1000)) - curTime);
+            int seconds = (int) (millis / 1000.0) % 60 ;
+            int minutes = (int) ((millis / (1000.0*60)) % 60);
+            int hours   = (int) ((millis / (1000.0*60*60)) % 24);
+
+            //System.out.println("Hour " + hours);
+            //System.out.println("Minutes " + minutes);
+            //System.out.println("Seconds " + seconds);
+
+            timeTill.setText("Next question in " + hours + " hrs " + minutes + " min");
+        }else{
+            double millis = (alarmTime  - curTime);
+            int seconds = (int) (millis / 1000.0) % 60 ;
+            int minutes = (int) ((millis / (1000.0*60)) % 60);
+            int hours   = (int) ((millis / (1000.0*60*60)) % 24);
+            timeTill.setText("Next question in " + hours + " hrs " + minutes + " min");
+        }
+        handler.postDelayed(runnable, 1000 * 60);
     }
 
     View.OnClickListener yesButtonListener = new View.OnClickListener(){

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -37,7 +38,7 @@ public class ResultFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_result, container, false);
         ((BaseActivity) getActivity()).setActionBarButtonToHome();
 
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-CondLight.ttf");
+        final Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-CondLight.ttf");
         ((TextView) view.findViewById(R.id.question)).setTypeface(font);
         ((TextView) view.findViewById(R.id.no_count)).setTypeface(font);
         ((TextView) view.findViewById(R.id.yes_count)).setTypeface(font);
@@ -55,6 +56,20 @@ public class ResultFragment extends Fragment {
             new GetResults(resultId, gRListener).execute();
             view.findViewById(R.id.no_result_layout).setVisibility(View.GONE);
         }
+
+        final Dialog helpDialog = new Dialog(getActivity());
+        helpDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        helpDialog.setContentView(R.layout.dialog_help);
+        Button helpButton = (Button) view.findViewById(R.id.help);
+        helpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView helpText = (TextView) helpDialog.findViewById(R.id.help);
+                helpText.setText("Over here you will see the results of the question asked the day before");
+                helpText.setTypeface(font);
+                helpDialog.show();
+            }
+        });
 
 
         return view;
