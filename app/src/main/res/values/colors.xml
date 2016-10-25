@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="yellow" type="color">#EBFA00</item>
-    <item name="blue" type="color">#587498</item>
-    <item name="red" type="color">#E86850</item>
-    <item name="yellow_back" type="color">#E8FC30</item>
-    <item name="trans_blue" type="color">#CC587498</item>
-    <item name="trans_red"  type="color">#CCE86850</item>
+
+    <item name="green_3" type="color">#DAFFA2</item>
+    <item name="green_5" type="color">#BBFF56</item>
+    <item name="green_6" type="color">#95CC44</item>
+    <item name="green_8" type="color">#5D7F2B</item>
+    <item name="green_9" type="color">#6D7F51</item>
+
     <integer-array name="androidcolors">
-    <item>@color/yellow</item>
-        <item>@color/blue</item>
-        <item>@color/red</item>
-        <item>@color/yellow_back</item>
-        <item>@color/trans_blue</item>
-        <item>@color/trans_red</item>
+        <item>@color/green_3</item>
+        <item>@color/green_5</item>
+        <item>@color/green_6</item>
+        <item>@color/green_8</item>
+        <item>@color/green_9</item>
+
 
     </integer-array>
 </resources>

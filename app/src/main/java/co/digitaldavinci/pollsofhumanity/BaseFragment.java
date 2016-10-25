@@ -1,7 +1,6 @@
 package co.digitaldavinci.pollsofhumanity;
 
 import android.app.Dialog;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -17,9 +16,6 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
-
-import co.digitaldavinci.pollsofhumanity.R;
 
 import co.digitaldavinci.pollsofhumanity.server.GetQuestion;
 import co.digitaldavinci.pollsofhumanity.server.PostAnswer;
@@ -46,7 +42,8 @@ public class BaseFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         manageSharedPref = new ManageSharedPref(getActivity().getApplicationContext());
-        ((BaseActivity) getActivity()).setActionBarButtonToResult();
+        ((BaseActivity) getActivity()).setActionBarButtonToChart();
+
         loadingDialog = new Dialog(getActivity());
         loadingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         loadingDialog.setContentView(R.layout.dialog_loading);

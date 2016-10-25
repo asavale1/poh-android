@@ -88,7 +88,8 @@ public class ResultFragment extends Fragment {
             ((TextView) view.findViewById(R.id.question)).setText(results.getQuestion());
 
 
-            view.findViewById(R.id.results_layout).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.question).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.graph_container).setVisibility(View.VISIBLE);
 
             loadingDialog.cancel();
         }

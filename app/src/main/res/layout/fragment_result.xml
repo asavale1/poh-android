@@ -28,62 +28,71 @@
     </RelativeLayout>
 
 
-    <RelativeLayout
+
+
+    <TextView
         android:visibility="invisible"
-        android:id="@+id/results_layout"
+        android:background="#b6e950"
+        android:id="@+id/question"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#fff">
+        android:layout_height="wrap_content"
+        android:text="Question goes here"
+        android:textSize="30sp"
+        android:textColor="#000"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="25dp"
+        android:paddingBottom="25dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"/>
 
-        <TextView
-            android:background="#b6e950"
-            android:id="@+id/question"
+
+    <ScrollView
+        android:visibility="invisible"
+        android:layout_below="@id/question"
+        android:id="@+id/graph_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Question goes here"
-            android:textSize="30sp"
-            android:textColor="#000"
-            android:gravity="center_horizontal"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:paddingTop="25dp"
-            android:paddingBottom="25dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"/>
+            android:layout_height="wrap_content">
 
-        <co.digitaldavinci.pollsofhumanity.PieChart
-            android:id="@+id/pie_chart"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_below="@id/question"
-            android:layout_marginBottom="10dp"/>
+            <co.digitaldavinci.pollsofhumanity.PieChart
+                android:id="@+id/pie_chart"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="200dp"
+                android:layout_marginBottom="10dp"/>
 
-        <TextView
-            android:id="@+id/yes_count"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="25% of the users world wide said yes"
-            android:textColor="#fff"
-            android:background="#117909"
-            android:padding="10dp"
-            android:gravity="center"
-            android:layout_below="@id/pie_chart"
-            android:layout_marginBottom="5dp"
-            android:layout_centerHorizontal="true"/>
+            <TextView
+                android:id="@+id/yes_count"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="25% of the users world wide said yes"
+                android:textColor="#fff"
+                android:background="#117909"
+                android:padding="10dp"
+                android:gravity="center"
+                android:layout_below="@id/pie_chart"
+                android:layout_marginBottom="5dp"
+                android:layout_centerHorizontal="true"/>
 
-        <TextView
-            android:id="@+id/no_count"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="75% of the users world wide said no"
-            android:textColor="#fff"
-            android:background="#b11a12"
-            android:padding="10dp"
-            android:gravity="center"
-            android:layout_below="@id/yes_count"
-            android:layout_centerHorizontal="true"/>
+            <TextView
+                android:id="@+id/no_count"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="75% of the users world wide said no"
+                android:textColor="#fff"
+                android:background="#b11a12"
+                android:padding="10dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:layout_below="@id/yes_count"
+                android:layout_centerHorizontal="true"/>
 
-    </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/help"
