@@ -36,7 +36,7 @@ public class UpdateAlarmReceiver extends BroadcastReceiver {
         nb.setContentTitle("New question published");
         nb.setContentText("The results of the old question are ready");
         nb.setAutoCancel(true);
-        nb.setSmallIcon(R.drawable.graph);
+        nb.setSmallIcon(R.drawable.icon_chart);
         nb.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.logox100));
 
         Intent resultIntent = new Intent(context, BaseActivity.class);
