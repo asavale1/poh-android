@@ -15,30 +15,39 @@
         android:text="Waiting for question..."
         android:id="@+id/question_Text"
         android:textSize="30sp"
-        android:textColor="#000"
-        android:background="#b6e950"/>
+        android:textColor="@color/green_2"
+        android:background="@color/green_9"/>
 
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/yes_button"
-        android:id="@+id/butt_Yes"
-        android:layout_centerHorizontal="true"
+    <RelativeLayout
         android:layout_below="@id/question_Text"
-        android:textSize="20sp"
-        android:textColor="#117909" />
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/no_button"
-        android:id="@+id/butt_No"
-        android:layout_centerHorizontal="true"
-        android:textSize="20sp"
-        android:textColor="#b11a12"
-        android:layout_below="@id/butt_Yes"/>
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/yes_button"
+            android:id="@+id/butt_Yes"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp"
+            android:textColor="#117909" />
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/no_button"
+            android:id="@+id/butt_No"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp"
+            android:textColor="#b11a12"
+            android:layout_below="@id/butt_Yes"/>
+
+    </RelativeLayout>
+
+
 
     <TextView
         android:id="@+id/time_till"
@@ -47,9 +56,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center_horizontal"
-        android:background="#b6e950"
+        android:background="@color/green_9"
         android:textSize="25sp"
-        android:textColor="#000"
+        android:textColor="@color/green_2"
         android:text="New question in "/>
 
     <Button

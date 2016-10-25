@@ -32,13 +32,13 @@
 
     <TextView
         android:visibility="invisible"
-        android:background="#b6e950"
+        android:background="@color/green_9"
         android:id="@+id/question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Question goes here"
         android:textSize="30sp"
-        android:textColor="#000"
+        android:textColor="@color/green_2"
         android:gravity="center_horizontal"
         android:layout_centerHorizontal="true"
         android:paddingTop="25dp"

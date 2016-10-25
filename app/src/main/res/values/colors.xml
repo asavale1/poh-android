@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <item name="green_2" type="color">#E9FFB1</item>
     <item name="green_3" type="color">#DAFFA2</item>
     <item name="green_5" type="color">#BBFF56</item>
     <item name="green_6" type="color">#95CC44</item>
@@ -8,6 +9,7 @@
     <item name="green_9" type="color">#6D7F51</item>
 
     <integer-array name="androidcolors">
+        <item>@color/green_2</item>
         <item>@color/green_3</item>
         <item>@color/green_5</item>
         <item>@color/green_6</item>
