@@ -6,12 +6,16 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -30,6 +34,7 @@ public class BaseFragment extends Fragment {
     private ManageSharedPref manageSharedPref;
     private TextView question, timeTill;
     private Button noButton, yesButton;
+    private EditText questionRequest;
     private Dialog loadingDialog;
 
     Handler handler = new Handler();
@@ -52,11 +57,11 @@ public class BaseFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_base, container, false);
 
-        yesButton = (Button) view.findViewById(R.id.butt_Yes);
+        yesButton = (Button) view.findViewById(R.id.button_yes);
         yesButton.setOnClickListener(yesButtonListener);
         yesButton.setText(Html.fromHtml("\u2713"));
 
-        noButton = (Button) view.findViewById(R.id.butt_No);
+        noButton = (Button) view.findViewById(R.id.button_no);
         noButton.setOnClickListener(noButtonListener);
         noButton.setText(Html.fromHtml("\u2715"));
 
@@ -71,6 +76,28 @@ public class BaseFragment extends Fragment {
         question = (TextView) view.findViewById(R.id.question_Text);
         final Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-CondLight.ttf");
         question.setTypeface(font);
+
+        questionRequest = (EditText) view.findViewById(R.id.question_request);
+        questionRequest.setTypeface(font);
+
+        final ImageButton submitQuestion = (ImageButton) view.findViewById(R.id.submit_question);
+
+        questionRequest.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+
+                String question = questionRequest.getText().toString().trim();
+                if(!question.isEmpty()){
+                    submitQuestion.setVisibility(View.VISIBLE);
+                }else{
+                    submitQuestion.setVisibility(View.GONE);
+                }
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
 
         timeTill = (TextView) view.findViewById(R.id.time_till);
         timeTill.setTypeface(font);

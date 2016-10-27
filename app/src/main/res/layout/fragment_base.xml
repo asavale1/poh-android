@@ -29,7 +29,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="50dp"
             android:background="@drawable/yes_button"
-            android:id="@+id/butt_Yes"
+            android:id="@+id/button_yes"
             android:layout_centerHorizontal="true"
             android:textSize="20sp"
             android:textColor="#117909" />
@@ -39,15 +39,13 @@
             android:layout_height="50dp"
             android:layout_marginTop="50dp"
             android:background="@drawable/no_button"
-            android:id="@+id/butt_No"
+            android:id="@+id/button_no"
             android:layout_centerHorizontal="true"
             android:textSize="20sp"
             android:textColor="#b11a12"
-            android:layout_below="@id/butt_Yes"/>
+            android:layout_below="@id/button_yes"/>
 
     </RelativeLayout>
-
-
 
     <TextView
         android:id="@+id/time_till"
@@ -56,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center_horizontal"
-        android:background="@color/green_9"
+        android:background="@color/green_8"
         android:textSize="25sp"
         android:textColor="@color/green_2"
         android:text="New question in "/>
@@ -70,4 +68,39 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:background="@drawable/question"/>
+
+    <EditText
+        android:minHeight="40dp"
+        android:background="@color/green_9"
+        android:layout_above="@id/time_till"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/question_request"
+        android:textColor="@color/green_2"
+        android:textSize="20sp"
+        android:paddingRight="40dp"
+        android:paddingLeft="5dp"
+        android:hint="Submit a question"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/green_2"/>
+
+    <LinearLayout
+        android:layout_above="@id/time_till"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/green_2"/>
+
+    <ImageButton
+        android:id="@+id/submit_question"
+        android:visibility="gone"
+        android:layout_above="@id/time_till"
+        android:layout_alignParentRight="true"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/icon_forward_arrow"
+        android:scaleType="fitXY"/>
 </RelativeLayout>
