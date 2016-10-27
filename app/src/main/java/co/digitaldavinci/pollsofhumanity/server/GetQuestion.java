@@ -25,7 +25,7 @@ public class GetQuestion extends AsyncTask<Void, Void, QuestionHolder> {
     private GetQuestionListener listener;
 
     public GetQuestion(Context context, GetQuestionListener listener) {
-        this.getQuestionUrl = context.getString(R.string.get_question_url);
+        this.getQuestionUrl = context.getString(R.string.question_api_endpoint);
         this.listener = listener;
     }
 

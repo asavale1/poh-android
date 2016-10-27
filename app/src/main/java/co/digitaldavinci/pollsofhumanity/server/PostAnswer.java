@@ -1,5 +1,6 @@
 package co.digitaldavinci.pollsofhumanity.server;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
@@ -11,6 +12,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import co.digitaldavinci.pollsofhumanity.R;
 import co.digitaldavinci.pollsofhumanity.server.listener.PostAnswerListener;
 
 /**
@@ -21,8 +23,8 @@ public class PostAnswer extends AsyncTask<Void, Void, String> {
     private String answer, postAnswerUrl;
     private PostAnswerListener listener;
 
-    public PostAnswer(int question_id, String answer, PostAnswerListener listener){
-        this.postAnswerUrl="https://polls-of-humanity.herokuapp.com/api/post_answer";
+    public PostAnswer(Context context, int question_id, String answer, PostAnswerListener listener){
+        this.postAnswerUrl= context.getString(R.string.question_api_endpoint);
         this.question_id=question_id;
         this.answer=answer;
         this.listener = listener;

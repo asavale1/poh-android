@@ -147,7 +147,7 @@ public class BaseFragment extends Fragment {
         @Override
         public void onClick(View v) {
             if(!manageSharedPref.getCurrentQuestionAnswered()){
-                new PostAnswer(manageSharedPref.getCurrentQuestionId(), "yes", pAListener).execute();
+                new PostAnswer(getActivity(), manageSharedPref.getCurrentQuestionId(), "yes", pAListener).execute();
                 manageSharedPref.setCurrentQuestionAnswer(true);
                 noButton.setVisibility(View.INVISIBLE);
             }
@@ -158,7 +158,7 @@ public class BaseFragment extends Fragment {
         @Override
         public void onClick(View v) {
             if(!manageSharedPref.getCurrentQuestionAnswered()){
-                new PostAnswer(manageSharedPref.getCurrentQuestionId(), "no", pAListener).execute();
+                new PostAnswer(getActivity(), manageSharedPref.getCurrentQuestionId(), "no", pAListener).execute();
                 manageSharedPref.setCurrentQuestionAnswer(false);
                 yesButton.setVisibility(View.INVISIBLE);
             }

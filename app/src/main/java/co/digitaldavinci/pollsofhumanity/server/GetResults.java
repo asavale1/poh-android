@@ -1,5 +1,6 @@
 package co.digitaldavinci.pollsofhumanity.server;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import org.json.JSONException;
@@ -11,7 +12,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.logging.Logger;
 
+import co.digitaldavinci.pollsofhumanity.R;
 import co.digitaldavinci.pollsofhumanity.server.holder.ResultsHolder;
 import co.digitaldavinci.pollsofhumanity.server.listener.GetResultsListener;
 
@@ -24,16 +27,18 @@ public class GetResults extends AsyncTask<Void, Void, ResultsHolder> {
     private GetResultsListener listener;
 
 
-    public GetResults(int questionId, GetResultsListener listener){
-        this.getResultsUrl = "https://polls-of-humanity.herokuapp.com/api/get_results?question_id=";
-        this.questionId = questionId;
+    public GetResults(Context context, int questionId, GetResultsListener listener){
+        this.getResultsUrl = context.getString(R.string.question_api_endpoint) + "/" + questionId; //"https://polls-of-humanity.herokuapp.com/api/get_results?question_id=";
+        //this.questionId = questionId;
+
+        System.out.println("Get results url: " + getResultsUrl);
         this.listener = listener;
     }
     @Override
     protected ResultsHolder doInBackground(Void... params) {
         StringBuilder data = new StringBuilder();
         try {
-            URL url = new URL(getResultsUrl + questionId);
+            URL url = new URL(getResultsUrl);//+ questionId);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             InputStream in = new BufferedInputStream(connection.getInputStream());

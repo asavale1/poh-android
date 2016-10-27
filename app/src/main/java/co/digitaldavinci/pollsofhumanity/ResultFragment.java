@@ -52,7 +52,7 @@ public class ResultFragment extends Fragment {
         ((TextView) loadingDialog.findViewById(R.id.action)).setTypeface(font);
 
         loadingDialog.show();
-        new GetResults(resultId, gRListener).execute();
+        new GetResults(getActivity(), resultId, gRListener).execute();
         view.findViewById(R.id.no_result_layout).setVisibility(View.GONE);
 
         final Dialog helpDialog = new Dialog(getActivity());
@@ -80,6 +80,10 @@ public class ResultFragment extends Fragment {
             ((PieChart) view.findViewById(R.id.pie_chart)).setYesCount(results.getYesCount());
 
             DecimalFormat df = new DecimalFormat("#.##");
+
+            System.out.println("GET RESULT LISTENER - YES: " + results.getYesCount());
+            System.out.println("GET RESULT LISTENER - NO: " + results.getNoCount());
+
 
             double yesRatio = ((double) results.getYesCount()) / ((double) (results.getTotal()));
 
