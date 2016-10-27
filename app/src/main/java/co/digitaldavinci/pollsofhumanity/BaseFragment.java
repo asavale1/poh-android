@@ -78,7 +78,16 @@ public class BaseFragment extends Fragment {
         question.setTypeface(font);
 
         questionRequest = (EditText) view.findViewById(R.id.question_request);
+        questionRequest.setHintTextColor(getResources().getColor(R.color.green_2));
         questionRequest.setTypeface(font);
+        questionRequest.setCursorVisible(false);
+
+        questionRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                questionRequest.setCursorVisible(true);
+            }
+        });
 
         final ImageButton submitQuestion = (ImageButton) view.findViewById(R.id.submit_question);
 
