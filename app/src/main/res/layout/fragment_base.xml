@@ -56,7 +56,7 @@
         android:gravity="center_horizontal"
         android:background="@color/green_8"
         android:textSize="25sp"
-        android:textColor="@color/green_2"
+        android:textColor="@android:color/white"
         android:text="New question in "/>
 
     <Button
@@ -79,8 +79,10 @@
         android:textColor="@color/green_2"
         android:textSize="20sp"
         android:paddingRight="40dp"
+        android:paddingEnd="40dp"
         android:paddingLeft="5dp"
-        android:hint="Submit a question"/>
+        android:paddingStart="5dp"
+        android:hint="@string/question_request_hint"/>
 
     <LinearLayout
         android:layout_width="match_parent"
