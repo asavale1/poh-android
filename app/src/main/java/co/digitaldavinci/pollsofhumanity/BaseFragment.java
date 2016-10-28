@@ -23,6 +23,7 @@ import java.util.TimeZone;
 
 import co.digitaldavinci.pollsofhumanity.server.GetQuestion;
 import co.digitaldavinci.pollsofhumanity.server.PostAnswer;
+import co.digitaldavinci.pollsofhumanity.server.RequestQuestion;
 import co.digitaldavinci.pollsofhumanity.server.holder.QuestionHolder;
 import co.digitaldavinci.pollsofhumanity.server.listener.GetQuestionListener;
 import co.digitaldavinci.pollsofhumanity.server.listener.PostAnswerListener;
@@ -89,7 +90,8 @@ public class BaseFragment extends Fragment {
             }
         });
 
-        final ImageButton submitQuestion = (ImageButton) view.findViewById(R.id.submit_question);
+        final ImageButton submitRequest = (ImageButton) view.findViewById(R.id.submit_question);
+        submitRequest.setOnClickListener(submitRequestListener);
 
         questionRequest.addTextChangedListener(new TextWatcher() {
 
@@ -97,9 +99,9 @@ public class BaseFragment extends Fragment {
 
                 String question = questionRequest.getText().toString().trim();
                 if(!question.isEmpty()){
-                    submitQuestion.setVisibility(View.VISIBLE);
+                    submitRequest.setVisibility(View.VISIBLE);
                 }else{
-                    submitQuestion.setVisibility(View.GONE);
+                    submitRequest.setVisibility(View.GONE);
                 }
             }
 
@@ -178,6 +180,14 @@ public class BaseFragment extends Fragment {
         }
         handler.postDelayed(runnable, 1000 * 60);
     }
+
+    View.OnClickListener submitRequestListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            System.out.println("IN SUBMIT REQUEST LISTENER");
+            new RequestQuestion(getActivity(), questionRequest.getText().toString()).execute();
+        }
+    };
 
     View.OnClickListener yesButtonListener = new View.OnClickListener(){
         @Override
