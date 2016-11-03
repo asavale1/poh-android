@@ -223,6 +223,7 @@ public class BaseFragment extends Fragment {
                 requestedQuestion.setText("");
                 requestQuestion.setText(getString(R.string.question_request_hint));
                 submitQuestionRequest.setVisibility(View.INVISIBLE);
+                loadingDialog.dismiss();
                 Toast.makeText(getActivity(), "Question submitted", Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(getActivity(), "Submission failed, please try again", Toast.LENGTH_SHORT).show();
@@ -233,12 +234,15 @@ public class BaseFragment extends Fragment {
     View.OnClickListener submitQuestionRequestListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            System.out.println("IN SUBMIT REQUEST LISTENER");
             String question = requestQuestion.getText().toString().trim();
-            if(!question.equals(getString(R.string.question_request_hint)) && !question.isEmpty())
+            if(!question.equals(getString(R.string.question_request_hint)) && !question.isEmpty()){
+                ((TextView) loadingDialog.findViewById(R.id.action)).setText("Submitting question");
+                loadingDialog.show();
                 new RequestQuestion(getActivity(), listener, question).execute();
-            else
+
+            }else {
                 Toast.makeText(getActivity(), "Please enter a question", Toast.LENGTH_SHORT).show();
+            }
         }
     };
 

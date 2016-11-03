@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">Polls Of Humanity</string>
 
-    <!--<string name="question_api_endpoint">https://polls-of-humanity.herokuapp.com/api/v1/question</string>
-    <string name="request_question_api_endpoint">https://polls-of-humanity.herokuapp.com/api/v1/question/request</string>-->
+    <string name="question_api_endpoint">https://polls-of-humanity.herokuapp.com/api/v1/question</string>
+    <string name="request_question_api_endpoint">https://polls-of-humanity.herokuapp.com/api/v1/question/request</string>
 
     <!--<string name="question_api_endpoint">https://poh-staging.herokuapp.com/api/v1/question</string>
     <string name="request_question_api_endpoint">https://poh-staging.herokuapp.com/api/v1/question/request</string>-->
 
-    <string name="question_api_endpoint">http://192.168.1.6:3000/api/v1/question</string>
-    <string name="request_question_api_endpoint">http://192.168.1.6:3000/api/v1/question/request</string>
+    <!--<string name="question_api_endpoint">http://192.168.1.6:3000/api/v1/question</string>
+    <string name="request_question_api_endpoint">http://192.168.1.6:3000/api/v1/question/request</string>-->
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
