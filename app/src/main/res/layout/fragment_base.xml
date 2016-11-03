@@ -69,20 +69,20 @@
         android:layout_height="20dp"
         android:background="@drawable/question"/>
 
-    <EditText
-        android:minHeight="40dp"
+    <TextView
         android:background="@color/green_9"
         android:layout_above="@id/time_till"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
         android:id="@+id/question_request"
-        android:textColor="@color/green_2"
         android:textSize="20sp"
+        android:textColor="@color/green_2"
         android:paddingRight="40dp"
         android:paddingEnd="40dp"
         android:paddingLeft="5dp"
         android:paddingStart="5dp"
-        android:hint="@string/question_request_hint"/>
+        android:text="@string/question_request_hint"/>
 
     <LinearLayout
         android:layout_width="match_parent"

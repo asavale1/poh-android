@@ -13,11 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.net.HttpURLConnection;
 import java.util.Calendar;
 import java.util.TimeZone;
 
@@ -27,6 +30,7 @@ import co.digitaldavinci.pollsofhumanity.server.RequestQuestion;
 import co.digitaldavinci.pollsofhumanity.server.holder.QuestionHolder;
 import co.digitaldavinci.pollsofhumanity.server.listener.GetQuestionListener;
 import co.digitaldavinci.pollsofhumanity.server.listener.PostAnswerListener;
+import co.digitaldavinci.pollsofhumanity.server.listener.QuestionApiListener;
 
 /**
  * Created by ameya on 10/25/15.
@@ -35,8 +39,12 @@ public class BaseFragment extends Fragment {
     private ManageSharedPref manageSharedPref;
     private TextView question, timeTill;
     private Button noButton, yesButton;
-    private EditText questionRequest;
     private Dialog loadingDialog;
+    private Dialog enterQuestionDialog;
+    private ImageButton submitQuestionRequest;
+
+    private EditText requestedQuestion;
+    private TextView requestQuestion;
 
     Handler handler = new Handler();
     Runnable runnable = new Runnable() {
@@ -55,6 +63,8 @@ public class BaseFragment extends Fragment {
         loadingDialog.setContentView(R.layout.dialog_loading);
         loadingDialog.setCancelable(false);
         loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+
 
         View view = inflater.inflate(R.layout.fragment_base, container, false);
 
@@ -78,37 +88,19 @@ public class BaseFragment extends Fragment {
         final Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-CondLight.ttf");
         question.setTypeface(font);
 
-        questionRequest = (EditText) view.findViewById(R.id.question_request);
-        questionRequest.setHintTextColor(getResources().getColor(R.color.green_2));
-        questionRequest.setTypeface(font);
-        questionRequest.setCursorVisible(false);
-
-        questionRequest.setOnClickListener(new View.OnClickListener() {
+        requestQuestion = (TextView) view.findViewById(R.id.question_request);
+        requestQuestion.setTypeface(font);
+        requestQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                questionRequest.setCursorVisible(true);
+                enterQuestionDialog.show();
             }
         });
+        setupEnterQuestionDialog();
 
-        final ImageButton submitRequest = (ImageButton) view.findViewById(R.id.submit_question);
-        submitRequest.setOnClickListener(submitRequestListener);
 
-        questionRequest.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {
-
-                String question = questionRequest.getText().toString().trim();
-                if(!question.isEmpty()){
-                    submitRequest.setVisibility(View.VISIBLE);
-                }else{
-                    submitRequest.setVisibility(View.GONE);
-                }
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-        });
+        submitQuestionRequest = (ImageButton) view.findViewById(R.id.submit_question);
+        submitQuestionRequest.setOnClickListener(submitQuestionRequestListener);
 
         timeTill = (TextView) view.findViewById(R.id.time_till);
         timeTill.setTypeface(font);
@@ -150,6 +142,49 @@ public class BaseFragment extends Fragment {
         return view;
     }
 
+    private void setupEnterQuestionDialog(){
+        enterQuestionDialog = new Dialog(getActivity());
+        enterQuestionDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        enterQuestionDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        enterQuestionDialog.setContentView(R.layout.dialog_enter_question);
+
+        requestedQuestion = ((EditText) enterQuestionDialog.findViewById(R.id.requested_question));
+
+        if(!requestQuestion.getText().equals(getString(R.string.question_request_hint))){
+            requestedQuestion.setText(requestQuestion.getText());
+        }
+
+        ((Button) enterQuestionDialog.findViewById(R.id.accept)).setText(Html.fromHtml("\u2713"));
+        enterQuestionDialog.findViewById(R.id.accept).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String question = requestedQuestion.getText().toString().trim();
+                if(!question.isEmpty() && !question.equals(getString(R.string.question_request_hint))){
+                    requestQuestion.setText(question);
+                    submitQuestionRequest.setVisibility(View.VISIBLE);
+                }else{
+                    requestQuestion.setText(getString(R.string.question_request_hint));
+                    submitQuestionRequest.setVisibility(View.INVISIBLE);
+                }
+
+                enterQuestionDialog.dismiss();
+            }
+        });
+
+
+        ((Button) enterQuestionDialog.findViewById(R.id.decline)).setText(Html.fromHtml("\u2715"));
+        enterQuestionDialog.findViewById(R.id.decline).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!requestQuestion.getText().equals(getString(R.string.question_request_hint))){
+                    requestedQuestion.setText(requestQuestion.getText());
+                }
+                enterQuestionDialog.dismiss();
+            }
+        });
+
+    }
+
 
     private void calculateTimeTill(){
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
@@ -181,11 +216,29 @@ public class BaseFragment extends Fragment {
         handler.postDelayed(runnable, 1000 * 60);
     }
 
-    View.OnClickListener submitRequestListener = new View.OnClickListener() {
+    private QuestionApiListener listener = new QuestionApiListener() {
+        @Override
+        public void onRequestQuestionComplete(int status) {
+            if(status == HttpURLConnection.HTTP_OK){
+                requestedQuestion.setText("");
+                requestQuestion.setText(getString(R.string.question_request_hint));
+                submitQuestionRequest.setVisibility(View.INVISIBLE);
+                Toast.makeText(getActivity(), "Question submitted", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(getActivity(), "Submission failed, please try again", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+    View.OnClickListener submitQuestionRequestListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             System.out.println("IN SUBMIT REQUEST LISTENER");
-            new RequestQuestion(getActivity(), questionRequest.getText().toString()).execute();
+            String question = requestQuestion.getText().toString().trim();
+            if(!question.equals(getString(R.string.question_request_hint)) && !question.isEmpty())
+                new RequestQuestion(getActivity(), listener, question).execute();
+            else
+                Toast.makeText(getActivity(), "Please enter a question", Toast.LENGTH_SHORT).show();
         }
     };
 

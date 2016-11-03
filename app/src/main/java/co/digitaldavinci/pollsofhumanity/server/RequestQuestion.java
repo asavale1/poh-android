@@ -17,23 +17,26 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 import co.digitaldavinci.pollsofhumanity.R;
+import co.digitaldavinci.pollsofhumanity.server.listener.QuestionApiListener;
 
 /**
  * Created by ameya on 10/27/16.
  */
 
-public class RequestQuestion extends AsyncTask<Void, Void, String> {
+public class RequestQuestion extends AsyncTask<Void, Void, Integer> {
 
     private Context context;
     private String question;
+    private QuestionApiListener listener;
 
-    public RequestQuestion(Context context, String question){
+    public RequestQuestion(Context context, QuestionApiListener listener, String question){
         this.context = context;
+        this.listener = listener;
         this.question = question;
     }
 
     @Override
-    protected String doInBackground(Void... params) {
+    protected Integer doInBackground(Void... params) {
 
         OutputStreamWriter writer = null;
 
@@ -53,9 +56,7 @@ public class RequestQuestion extends AsyncTask<Void, Void, String> {
             writer.write(questionRequest.toString());
             writer.flush();
 
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                System.out.println("REQUEST QUESTION: GOT DETAILS");
-            }
+            return connection.getResponseCode();
 
         }catch (Exception e){
             e.printStackTrace();
@@ -66,6 +67,12 @@ public class RequestQuestion extends AsyncTask<Void, Void, String> {
         }
 
 
-        return null;
+        return HttpURLConnection.HTTP_BAD_REQUEST;
+    }
+
+    @Override
+    protected void onPostExecute(Integer status){
+
+        listener.onRequestQuestionComplete(status);
     }
 }
