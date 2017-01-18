@@ -20,6 +20,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 import java.net.HttpURLConnection;
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -58,6 +62,12 @@ public class BaseFragment extends Fragment {
         manageSharedPref = new ManageSharedPref(getActivity().getApplicationContext());
         ((BaseActivity) getActivity()).setActionBarButtonToChart();
 
+
+        MobileAds.initialize(getActivity().getApplicationContext(), getString(R.string.app_id));
+
+
+
+
         loadingDialog = new Dialog(getActivity());
         loadingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         loadingDialog.setContentView(R.layout.dialog_loading);
@@ -67,6 +77,10 @@ public class BaseFragment extends Fragment {
 
 
         View view = inflater.inflate(R.layout.fragment_base, container, false);
+
+        AdView mAdView = (AdView) view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         yesButton = (Button) view.findViewById(R.id.button_yes);
         yesButton.setOnClickListener(yesButtonListener);

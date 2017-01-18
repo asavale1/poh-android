@@ -3,17 +3,28 @@
 
     <string name="question_api_endpoint">https://polls-of-humanity.herokuapp.com/api/v1/question</string>
     <string name="request_question_api_endpoint">https://polls-of-humanity.herokuapp.com/api/v1/question/request</string>
+    <string name="register_firebase_token_api_endpoint">https://polls-of-humanity.herokuapp.com/api/v1/android/register</string>
 
     <!--<string name="question_api_endpoint">https://poh-staging.herokuapp.com/api/v1/question</string>
     <string name="request_question_api_endpoint">https://poh-staging.herokuapp.com/api/v1/question/request</string>-->
 
-    <!--<string name="question_api_endpoint">http://192.168.1.6:3000/api/v1/question</string>
-    <string name="request_question_api_endpoint">http://192.168.1.6:3000/api/v1/question/request</string>-->
+    <!--<string name="question_api_endpoint">http://192.168.1.79:3000/api/v1/question</string>
+    <string name="request_question_api_endpoint">http://192.168.1.79:3000/api/v1/question/request</string>
+    <string name="register_firebase_token_api_endpoint">http://192.168.1.79:3000/api/v1/android/register</string>-->
+
+    <string name="banner_ad_unit_id_test">ca-app-pub-3940256099942544/6300978111</string>
+
+
+    <string name="app_id">ca-app-pub-7964273034077381~2050737751</string>
+    <string name="banner_ad_unit_id">ca-app-pub-7964273034077381/8330943759</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_results">results</string>
 
     <string name="question_request_hint">Request a question</string>
+
+    <string name="app_cache_file">co.digitaldavinci.pollsofhumanity.cache</string>
+    <string name="firebase_key">firebase_token</string>
 
 </resources>

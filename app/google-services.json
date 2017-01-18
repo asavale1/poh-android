@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "746242081936",
+    "firebase_url": "https://polls-of-humanity.firebaseio.com",
+    "project_id": "polls-of-humanity",
+    "storage_bucket": "polls-of-humanity.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:746242081936:android:57c09f18fd8464b3",
+        "android_client_info": {
+          "package_name": "co.digitaldavinci.pollsofhumanity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "746242081936-ffdhr4cldjtcta8pctjdnd8dip61s8fg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBq_Tus8w01ddNCK5pIq_q-tg9hlAsRTxM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

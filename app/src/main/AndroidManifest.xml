@@ -10,6 +10,7 @@
         android:icon="@drawable/logox500"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
         <activity
             android:name="co.digitaldavinci.pollsofhumanity.BaseActivity"
             android:label="@string/app_name" >
@@ -27,6 +28,8 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
+
+
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Matrix;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
+
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -41,6 +44,8 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
+        checkGooglePlayServices();
+
         fm = getSupportFragmentManager();
         actionBarInit();
 
@@ -49,6 +54,10 @@ public class BaseActivity extends AppCompatActivity {
         ft.commit();
 
         setUpdateAlarm();
+
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.app_cache_file), Context.MODE_PRIVATE);
+        String token = sharedPref.getString(getString(R.string.firebase_key), "");
+
     }
 
     private void actionBarInit(){
@@ -83,6 +92,15 @@ public class BaseActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void checkGooglePlayServices(){
+        /*GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+
+        if(apiAvailability.isGooglePlayServicesAvailable(this) != ConnectionResult.SUCCESS){
+            apiAvailability.makeGooglePlayServicesAvailable(this);
+        }*/
+
     }
 
     private void rotateChartIcon(){
@@ -153,6 +171,12 @@ public class BaseActivity extends AppCompatActivity {
                 ft.commit();
             }
         });
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        checkGooglePlayServices();
     }
 
     private void setUpdateAlarm(){
