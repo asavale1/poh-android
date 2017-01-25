@@ -37,35 +37,34 @@ public class GetResults extends AsyncTask<Void, Void, ResultsHolder> {
     @Override
     protected ResultsHolder doInBackground(Void... params) {
         StringBuilder data = new StringBuilder();
+        ResultsHolder results = new ResultsHolder();
+
         try {
             URL url = new URL(getResultsUrl);//+ questionId);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
-            InputStream in = new BufferedInputStream(connection.getInputStream());
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            if(connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                InputStream in = new BufferedInputStream(connection.getInputStream());
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                data.append(line);
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    data.append(line);
+                }
+                System.out.println(data.toString());
+                connection.disconnect();
+                in.close();
+                reader.close();
+
+                JSONObject resultDetails = new JSONObject(data.toString());
+                results.setYesCount(resultDetails.getInt("yes_count"));
+                results.setNoCount(resultDetails.getInt("no_count"));
+                results.setTotal(resultDetails.getInt("total"));
+                results.setQuestion(resultDetails.getString("question"));
             }
-            System.out.println(data.toString());
-            connection.disconnect();
-            in.close();
-            reader.close();
+
 
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        ResultsHolder results = new ResultsHolder();
-        try {
-            JSONObject resultDetails = new JSONObject(data.toString());
-            results.setYesCount(resultDetails.getInt("yes_count"));
-            results.setNoCount(resultDetails.getInt("no_count"));
-            results.setTotal(resultDetails.getInt("total"));
-            results.setQuestion(resultDetails.getString("question"));
-
-        } catch (JSONException e) {
             e.printStackTrace();
         }
 

@@ -2,6 +2,7 @@ package co.digitaldavinci.pollsofhumanity.server;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,6 +24,7 @@ import co.digitaldavinci.pollsofhumanity.server.listener.GetQuestionListener;
 public class GetQuestion extends AsyncTask<Void, Void, QuestionHolder> {
     private String getQuestionUrl;
     private GetQuestionListener listener;
+    private static final String TAG = "GetQuestion";
 
     public GetQuestion(Context context, GetQuestionListener listener) {
         this.getQuestionUrl = context.getString(R.string.question_api_endpoint);
@@ -31,35 +33,42 @@ public class GetQuestion extends AsyncTask<Void, Void, QuestionHolder> {
 
     @Override
     protected QuestionHolder doInBackground(Void... Params) {
+        QuestionHolder question = new QuestionHolder();
+
         StringBuilder data = new StringBuilder();
         try {
             URL url = new URL(getQuestionUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
-            InputStream in = new BufferedInputStream(connection.getInputStream());
-            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            Log.i(TAG, "Status Code: " + connection.getResponseCode());
+            if(connection.getResponseCode() == HttpURLConnection.HTTP_OK){
+                InputStream in = new BufferedInputStream(connection.getInputStream());
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                data.append(line);
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    data.append(line);
+                }
+
+                connection.disconnect();
+                in.close();
+                reader.close();
+
+                try {
+                    JSONObject questionDetails = new JSONObject(data.toString());
+                    question.setId(questionDetails.getInt("id"));
+                    question.setQuestion(questionDetails.getString("question"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
-            connection.disconnect();
-            in.close();
-            reader.close();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        QuestionHolder question = new QuestionHolder();
-        try {
-            JSONObject questionDetails = new JSONObject(data.toString());
-            question.setId(questionDetails.getInt("id"));
-            question.setQuestion(questionDetails.getString("question"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
 
         return question;
     }

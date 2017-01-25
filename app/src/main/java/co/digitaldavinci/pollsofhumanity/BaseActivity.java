@@ -1,11 +1,7 @@
 package co.digitaldavinci.pollsofhumanity;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Matrix;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,25 +11,17 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
-import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
-
-import co.digitaldavinci.pollsofhumanity.receiver.UpdateAlarmReceiver;
-
-import static android.R.attr.angle;
 
 public class BaseActivity extends AppCompatActivity {
     private FragmentManager fm;
@@ -53,10 +41,13 @@ public class BaseActivity extends AppCompatActivity {
         FragmentTransaction ft = fm.beginTransaction().replace(R.id.content_frame, baseFragment);
         ft.commit();
 
-        setUpdateAlarm();
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
+        //setUpdateAlarm();
 
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.app_cache_file), Context.MODE_PRIVATE);
-        String token = sharedPref.getString(getString(R.string.firebase_key), "");
 
     }
 
@@ -177,18 +168,6 @@ public class BaseActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         checkGooglePlayServices();
-    }
-
-    private void setUpdateAlarm(){
-        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(BaseActivity.this, UpdateAlarmReceiver.class);
-        PendingIntent pi = PendingIntent.getBroadcast(BaseActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 12);
-        calendar.set(Calendar.MINUTE, 00);
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
     }
 
 }

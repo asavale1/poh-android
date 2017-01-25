@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.net.HttpURLConnection;
 import java.util.Calendar;
@@ -40,6 +42,8 @@ import co.digitaldavinci.pollsofhumanity.server.listener.QuestionApiListener;
  * Created by ameya on 10/25/15.
  */
 public class BaseFragment extends Fragment {
+    private static final String TAG = "BaseFragment";
+
     private ManageSharedPref manageSharedPref;
     private TextView question, timeTill;
     private Button noButton, yesButton;
@@ -66,7 +70,9 @@ public class BaseFragment extends Fragment {
         MobileAds.initialize(getActivity().getApplicationContext(), getString(R.string.app_id));
 
 
-
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Log.i(TAG, "Token: " + token);
+        Log.i(TAG, "ID: " + FirebaseInstanceId.getInstance().getId());
 
         loadingDialog = new Dialog(getActivity());
         loadingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -78,9 +84,7 @@ public class BaseFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_base, container, false);
 
-        AdView mAdView = (AdView) view.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+
 
         yesButton = (Button) view.findViewById(R.id.button_yes);
         yesButton.setOnClickListener(yesButtonListener);
@@ -121,6 +125,7 @@ public class BaseFragment extends Fragment {
 
         if(manageSharedPref.getUpdate() || manageSharedPref.getCurrentQuestion().isEmpty()){
 
+            Log.i(TAG, Integer.toString(manageSharedPref.getCurrentQuestionId()));
             manageSharedPref.setResultsId(manageSharedPref.getCurrentQuestionId());
             ((TextView) loadingDialog.findViewById(R.id.action)).setText("Getting question");
             loadingDialog.show();
@@ -292,14 +297,22 @@ public class BaseFragment extends Fragment {
     GetQuestionListener gQListener = new GetQuestionListener() {
         @Override
         public void onGetQuestionComplete(QuestionHolder mQH) {
-            question.setText(mQH.getQuestion());
-            manageSharedPref.setUpdate(false);
-            manageSharedPref.setCurrentQuestion(mQH.getQuestion());
-            manageSharedPref.setCurrentQuestionId(mQH.getId());
-            manageSharedPref.setCurrentQuestionAnswered(false);
 
-            yesButton.setVisibility(View.VISIBLE);
-            noButton.setVisibility(View.VISIBLE);
+            if(mQH.getQuestion() != null){
+                question.setText(mQH.getQuestion());
+                manageSharedPref.setUpdate(false);
+                manageSharedPref.setCurrentQuestion(mQH.getQuestion());
+                manageSharedPref.setCurrentQuestionId(mQH.getId());
+                manageSharedPref.setCurrentQuestionAnswered(false);
+
+                yesButton.setVisibility(View.VISIBLE);
+                noButton.setVisibility(View.VISIBLE);
+            }else{
+                question.setText("Please wait for the next question");
+                yesButton.setVisibility(View.INVISIBLE);
+                noButton.setVisibility(View.INVISIBLE);
+            }
+
 
             loadingDialog.cancel();
         }

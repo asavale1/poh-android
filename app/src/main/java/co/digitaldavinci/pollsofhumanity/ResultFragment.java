@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,9 @@ public class ResultFragment extends Fragment {
     private ManageSharedPref manageSharedPref;
     private View view;
     private Dialog loadingDialog;
+
+    private static final String TAG = "ResultFragment";
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         manageSharedPref = new ManageSharedPref(getActivity().getApplicationContext());
 
@@ -45,8 +49,7 @@ public class ResultFragment extends Fragment {
         ((TextView) view.findViewById(R.id.no_result)).setTypeface(font);
 
         int resultId = manageSharedPref.getResultsId();
-
-        System.out.println("resultId\t" + resultId);
+        Log.i(TAG, "Result Id: " + resultId);
 
         ((TextView) loadingDialog.findViewById(R.id.action)).setText("Getting results");
         ((TextView) loadingDialog.findViewById(R.id.action)).setTypeface(font);
@@ -76,24 +79,32 @@ public class ResultFragment extends Fragment {
     GetResultsListener gRListener = new GetResultsListener() {
         @Override
         public void onGetResultsComplete(ResultsHolder results) {
-            ((PieChart) view.findViewById(R.id.pie_chart)).setNoCount(results.getNoCount());
-            ((PieChart) view.findViewById(R.id.pie_chart)).setYesCount(results.getYesCount());
 
-            DecimalFormat df = new DecimalFormat("#.##");
+            if(results.getQuestion() != null){
+                ((PieChart) view.findViewById(R.id.pie_chart)).setNoCount(results.getNoCount());
+                ((PieChart) view.findViewById(R.id.pie_chart)).setYesCount(results.getYesCount());
 
-            System.out.println("GET RESULT LISTENER - YES: " + results.getYesCount());
-            System.out.println("GET RESULT LISTENER - NO: " + results.getNoCount());
+                DecimalFormat df = new DecimalFormat("#.##");
+
+                System.out.println("GET RESULT LISTENER - YES: " + results.getYesCount());
+                System.out.println("GET RESULT LISTENER - NO: " + results.getNoCount());
 
 
-            double yesRatio = ((double) results.getYesCount()) / ((double) (results.getTotal()));
+                double yesRatio = ((double) results.getYesCount()) / ((double) (results.getTotal()));
 
-            ((TextView) view.findViewById(R.id.yes_count)).setText(df.format(yesRatio * 100) + "% of users world wide said yes");
-            ((TextView) view.findViewById(R.id.no_count)).setText(df.format((1 - yesRatio) * 100) + "% of users world wide said no");
-            ((TextView) view.findViewById(R.id.question)).setText(results.getQuestion());
+                ((TextView) view.findViewById(R.id.yes_count)).setText(df.format(yesRatio * 100) + "% of users world wide said yes");
+                ((TextView) view.findViewById(R.id.no_count)).setText(df.format((1 - yesRatio) * 100) + "% of users world wide said no");
+                ((TextView) view.findViewById(R.id.question)).setText(results.getQuestion());
 
+
+                view.findViewById(R.id.graph_container).setVisibility(View.VISIBLE);
+
+            }else{
+                ((TextView) view.findViewById(R.id.question)).setText("Results currently unavailable please try again later");
+
+            }
 
             view.findViewById(R.id.question).setVisibility(View.VISIBLE);
-            view.findViewById(R.id.graph_container).setVisibility(View.VISIBLE);
 
             loadingDialog.cancel();
         }

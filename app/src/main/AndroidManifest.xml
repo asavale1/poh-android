@@ -21,13 +21,30 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="co.digitaldavinci.pollsofhumanity.receiver.UpdateAlarmReceiver" />
 
-        <receiver android:name="co.digitaldavinci.pollsofhumanity.receiver.RestartReceiver">
+        <!--
+            A service that extends FirebaseReceiverService. This is required if you want to do any message handling beyond receiving notifications on apps in the background.
+            To receive notifications in foregrounded apps, to receive data payload, to send upstream messages, and so on, you must extend this service.
+        -->
+
+        <service
+            android:name="co.digitaldavinci.pollsofhumanity.firebase.FirebaseReceiverService">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
-        </receiver>
+        </service>
+
+        <!--
+            A service that extends FirebaseInstanceIdService to handle the creation, rotation, and updating of registration tokens.
+            This is required for sending to specific devices or for creating device groups.
+        -->
+        <service
+            android:name="co.digitaldavinci.pollsofhumanity.firebase.FirebaseIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
 
 
     </application>
