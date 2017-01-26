@@ -298,15 +298,24 @@ public class BaseFragment extends Fragment {
         @Override
         public void onGetQuestionComplete(QuestionHolder mQH) {
 
+
             if(mQH.getQuestion() != null){
-                question.setText(mQH.getQuestion());
-                manageSharedPref.setUpdate(false);
-                manageSharedPref.setCurrentQuestion(mQH.getQuestion());
-                manageSharedPref.setCurrentQuestionId(mQH.getId());
-                manageSharedPref.setCurrentQuestionAnswered(false);
+
+                if(manageSharedPref.getCurrentQuestionId() != mQH.getId()){
+                    question.setText(mQH.getQuestion());
+                    manageSharedPref.setUpdate(false);
+                    manageSharedPref.setCurrentQuestion(mQH.getQuestion());
+                    manageSharedPref.setCurrentQuestionId(mQH.getId());
+                    manageSharedPref.setCurrentQuestionAnswered(false);
+
+
+                }else{
+                    question.setText(manageSharedPref.getCurrentQuestion());
+                }
 
                 yesButton.setVisibility(View.VISIBLE);
                 noButton.setVisibility(View.VISIBLE);
+
             }else{
                 question.setText("Please wait for the next question");
                 yesButton.setVisibility(View.INVISIBLE);
